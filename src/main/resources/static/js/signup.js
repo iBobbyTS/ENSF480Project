@@ -2,19 +2,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const signupForm = document.getElementById('signup-form');
     const passwordInput = document.getElementById('password');
     const repeatPasswordInput = document.getElementById('repeat-password');
-    const usernameInput = document.getElementById('username');
+    const emailInput = document.getElementById('email');
 
     const passwordError = document.getElementById('password-error');
     const repeatPasswordError = document.getElementById('repeat-password-error');
-    const usernameError = document.getElementById('username-error');
+    const emailError = document.getElementById('email-error');
 
     signupForm.addEventListener('submit', (event) => {
+        event.preventDefault(); // Prevent default form submission
         let valid = true;
 
         // Clear previous error messages
         passwordError.textContent = '';
         repeatPasswordError.textContent = '';
-        usernameError.textContent = '';
+        emailError.textContent = '';
+
+        // Email format check
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(emailInput.value)) {
+            emailError.textContent = 'Invalid email format.';
+            valid = false;
+        }
 
         // Password length check
         if (passwordInput.value.length < 8) {
@@ -29,10 +37,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (!valid) {
-            event.preventDefault(); // Prevent form submission
-            return;
+            return; // Stop if validation fails
         }
 
-        // Proceed with form submission (handled by the server)
+        // Proceed with form submission using post_json
+        const userData = {
+            email: emailInput.value,
+            password: sha1(passwordInput.value)
+        };
+
+        post_json('/api/sign-up', userData, (responseText) => {
+            const response = JSON.parse(responseText);
+            if (response.status === 0) {
+                window.location.href = '/';
+            } else {
+                // Failure: show notification
+                emailError.textContent = 'Email already exists.';
+            }
+        });
     });
 });

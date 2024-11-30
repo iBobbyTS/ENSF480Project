@@ -13,7 +13,7 @@ public interface CookieServ {
      * @param user the user for whom the cookie is generated.
      * @return the created Cookie object.
      */
-    Cookie addRow(RegisteredUser user);
+    Cookie addRow(String token, RegisteredUser user);
 
     /**
      * Retrieves the add date for a given token.
@@ -30,4 +30,6 @@ public interface CookieServ {
      * @return the email of the user associated with the token.
      */
     String getUserEmail(String token);
+
+    RegisteredUser getUser(String token);
 }

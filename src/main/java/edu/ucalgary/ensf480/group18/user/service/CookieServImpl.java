@@ -19,30 +19,39 @@ public class CookieServImpl implements CookieServ {
     }
 
     @Override
-    public Cookie addRow(RegisteredUser user) {
-        String token = generateRandomToken();
+    public Cookie addRow(String token, RegisteredUser user) {
         LocalDate currentDate = LocalDate.now();
 
-        Cookie cookie = new Cookie();
-//        cookie.setUser(user);
-        cookie.setUserToken(token);
-        cookie.setAddDate(currentDate);
+        Cookie cookie = new Cookie(token, currentDate, user);
 
         return cookieRepository.save(cookie);
     }
 
     @Override
     public LocalDate getAddDate(String token) {
-        return cookieRepository.findByUserToken(token)
-                .map(Cookie::getAddDate)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid token: " + token));
+        Cookie cookie = cookieRepository.findByToken(token);
+        if (cookie == null) {
+            throw new IllegalArgumentException("Invalid token: " + token);
+        }
+        return cookie.getAddDate();
     }
 
     @Override
     public String getUserEmail(String token) {
-        return cookieRepository.findByUserToken(token)
-                .map(cookie -> cookie.getUser().getUsrEmail())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid token: " + token));
+        Cookie cookie = cookieRepository.findByToken(token);
+        if (cookie == null) {
+            throw new IllegalArgumentException("Invalid token: " + token);
+        }
+        return cookie.getUser().getUsrEmail();
+    }
+
+    @Override
+    public RegisteredUser getUser(String token) {
+        Cookie cookie = cookieRepository.findByToken(token);
+        if (cookie == null) {
+            throw new IllegalArgumentException("Invalid token: " + token);
+        }
+        return cookie.getUser();
     }
 
     // Private utility to generate a random 16-character token

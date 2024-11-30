@@ -18,11 +18,6 @@ public class CookieController {
         this.cookieService = cookieService;
     }
 
-    @PostMapping("/add")
-    public String addRow(@RequestBody RegisteredUser user) {
-        return "Cookie added with token: " + cookieService.addRow(user).getUserToken();
-    }
-
     @GetMapping("/addDate/{token}")
     public LocalDate getAddDate(@PathVariable String token) {
         return cookieService.getAddDate(token);

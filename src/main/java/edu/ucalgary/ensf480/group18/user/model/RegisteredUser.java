@@ -13,9 +13,9 @@ public class RegisteredUser {
     @Column(nullable = false, columnDefinition = "FLOAT DEFAULT 0.0")
     private float credit;
     private String password;
-    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
+//    @Column(nullable = true)
     private LocalDate VIPLastRenewal;
-    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
+    @Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
     private boolean admin;
 
     @OneToOne(mappedBy = "user")
@@ -38,7 +38,6 @@ public class RegisteredUser {
         this.password = password;
     }
 
-
     public Card getCard() {
         return card;
     }
@@ -57,6 +56,13 @@ public class RegisteredUser {
 
     public boolean isVIP() {
         return VIPLastRenewal != null && VIPLastRenewal.isAfter(LocalDate.now().minusYears(1));
+    }
+
+    public String getVIPExpiry() {
+        if (VIPLastRenewal == null) {
+            return "Not VIP";
+        }
+        return VIPLastRenewal.plusYears(1).toString();
     }
 
     public void renewVIP() {

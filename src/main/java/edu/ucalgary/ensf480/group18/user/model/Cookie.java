@@ -5,50 +5,31 @@ import java.time.LocalDate;
 
 @Entity
 public class Cookie {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
     @Column(unique = true, nullable = false)
-    private String userToken;
+    private String token;
 
     private LocalDate addDate;
 
     @ManyToOne
-    @JoinColumn(name = "userEmail", nullable = false)
+    @JoinColumn(name = "usrEmail", nullable = false)
     private RegisteredUser user;
 
+    public Cookie() {
+
+    }
+    public Cookie(String token, LocalDate addDate, RegisteredUser user) {
+        this.token = token;
+        this.addDate = addDate;
+        this.user = user;
+    }
+
     // Getters and Setters
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getUserToken() {
-        return userToken;
-    }
-
-    public void setUserToken(String userToken) {
-        this.userToken = userToken;
-    }
-
     public LocalDate getAddDate() {
         return addDate;
     }
 
-    public void setAddDate(LocalDate addDate) {
-        this.addDate = addDate;
-    }
-
     public RegisteredUser getUser() {
         return user;
-    }
-
-    public void setUser(RegisteredUser user) {
-        this.user = user;
     }
 }

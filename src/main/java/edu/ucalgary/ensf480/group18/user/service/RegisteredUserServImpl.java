@@ -12,18 +12,15 @@ public class RegisteredUserServImpl implements RegisteredUserServ {
     private RegisteredUserRepo registeredUserRepo;
 
     @Override
-    public RegisteredUser createUser(RegisteredUser registeredUser) {
-        return registeredUserRepo.save(registeredUser);
+    public void createUser(RegisteredUser registeredUser) {
+        registeredUserRepo.save(registeredUser);
     }
 
     @Override
     public RegisteredUser getUserByEmailAddress(String emailAddress) {
         return registeredUserRepo.findByEmailAddress(emailAddress);
     }
-
-//    @Override
-//    public void deleteUser(RegisteredUser registeredUser) {
-//        registeredUserRepo.delete(registeredUser);
-//    }
-
+    public boolean emailExists(String email) {
+        return registeredUserRepo.findByUsrEmail(email) != null;
+    }
 }

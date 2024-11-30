@@ -1,7 +1,16 @@
 package edu.ucalgary.ensf480.group18.user.controller;
 
 import java.util.*;
+
+import edu.ucalgary.ensf480.group18.user.service.CookieServ;
+import edu.ucalgary.ensf480.group18.user.service.CookieServImpl;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import edu.ucalgary.ensf480.group18.user.model.RegisteredUser;
+import edu.ucalgary.ensf480.group18.user.service.RegisteredUserServ;
 
 // temp class
 class Movie {
@@ -20,23 +29,30 @@ class Movie {
     public String getTitle() {
         return title;
     }
+}
 
-    public String getCover() {
-        return cover;
+class UserAccount {
+    private String email;
+    private String password;
+
+    // Getters and setters
+    public String getEmail() {
+        return email;
     }
 
-    public String getActors() {
-        return actors;
-    }
-
-    public String getDuration() {
-        return duration;
+    public String getPassword() {
+        return password;
     }
 }
 
 @RestController
 @RequestMapping("/api")
 public class ApiController {
+    @Autowired
+    private RegisteredUserServ registeredUserService;
+    @Autowired
+    private CookieServ cookieService;
+
     @GetMapping("/movies")
     public List<Movie> getMovies() {
         return List.of(
@@ -60,16 +76,31 @@ public class ApiController {
         );
     }
     @PostMapping("/sign-up")
-    public Map<String, Object> signUp(@RequestBody RequestBodyConstructor.UserAccount userAccount) {
+    public Map<String, Object> signUp(@RequestBody UserAccount userAccount, HttpServletResponse response) {
         // check if email exists
-        // if exists, return {"status": 1, "message": "Email already exists"}
-        // if not, return {"status": 0, "message": "User created"}
-        Map<String, Object> response = new HashMap<>();
-        response.put("name", "Alice");
-        response.put("age", 25);
-        response.put("isStudent", true);
-        response.put("grades", new int[]{90, 85, 92}); // Nested data
-        return response;
+        Map<String, Object> responseBody = new HashMap<>();
+        if (registeredUserService.emailExists(userAccount.getEmail())) {
+            // return {"status": 1, "message": "Email already exists"}
+            responseBody.put("status", 1);
+            responseBody.put("message", "Email already exists");
+        } else {
+            // if not, return {"status": 0, "message": "User created"}
+            RegisteredUser newUser = new RegisteredUser(userAccount.getEmail(), userAccount.getPassword(), false);
+            registeredUserService.createUser(newUser);
+            // Generate token (for simplicity, using a UUID here)
+            String token = UUID.randomUUID().toString();
+            // Set token as a cookie
+            Cookie cookie = new Cookie("TOKEN", token);
+            cookie.setHttpOnly(true);
+            cookie.setPath("/");
+            cookie.setMaxAge(15552000); // 6 months in seconds
+            response.addCookie(cookie);
+            // store token in database
+            cookieService.addRow(token, newUser);
+            responseBody.put("status", 0);
+            responseBody.put("message", "User created");
+        }
+        return responseBody;
     }
 
     @PostMapping("/sign-in")

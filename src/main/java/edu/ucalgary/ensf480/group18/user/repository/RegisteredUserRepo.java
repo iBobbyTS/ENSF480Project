@@ -11,4 +11,5 @@ public interface RegisteredUserRepo extends JpaRepository<RegisteredUser, String
     // Extends user repository
     @Query("SELECT u FROM RegisteredUser u WHERE u.usrEmail = ?1")
     RegisteredUser findByEmailAddress(String emailAddress);
+    RegisteredUser findByUsrEmail(String usrEmail);
 }

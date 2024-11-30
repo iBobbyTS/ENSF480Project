@@ -1,16 +1,8 @@
--- Address Table
-INSERT INTO Address (street, city, province, postalCode, country) VALUES
-('123 Main St', 'Calgary', 'Alberta', 'T1X 1X1', 'Canada'),
-('456 Elm St', 'Edmonton', 'Alberta', 'T2Y 2Y2', 'Canada'),
-('789 Oak St', 'Vancouver', 'British Columbia', 'V3Z 3Z3', 'Canada'),
-('321 Pine St', 'Toronto', 'Ontario', 'M4X 4X4', 'Canada'),
-('654 Cedar St', 'Montreal', 'Quebec', 'H1Y 5Y5', 'Canada');
-
 -- Theater Table
 INSERT INTO Theater (theaterNumber, capacity, theaterType) VALUES
 ('Theater 1', 100, 'IMAX'),
-('Theater 2', 100, 'Standard'),
-('Theater 3', 100, '4D'),
+('Theater 2', 100, 'Dolby'),
+('Theater 3', 100, '3D'),
 ('Theater 4', 100, 'VIP'),
 ('Theater 5', 100, 'Standard');
 #
@@ -46,12 +38,15 @@ INSERT INTO Theater (theaterNumber, capacity, theaterType) VALUES
 
 -- RegisteredUser Table
 INSERT INTO RegisteredUser (usrEmail, password) VALUES
- ('burnice.white@calydon.com', 'password123'),
- ('anby.demara@cunning.com', 'secure456'),
- ('grace.howard@belobog.com', 'alicepass'),
- ('nicole.demara@cunning.com', 'bobbypass'),
- ('luciana.montefio@calydon.com', 'charliepass');
+ ('burnice.white@calydon.com', '39442418ce0d9c990de8c8650aac5e713663d815'),
+ ('anby.demara@cunning.com', 'e1f8ddc30960fabee1178bd38fa52ad0421ea655'),
+ ('grace.howard@belobog.com', '771c4f3744af6dc5c0ab1354fe2271f3fc7ff3e7'),
+ ('nicole.demara@cunning.com', 'c6d89a2bdc02a8a0cbe3c5f4849eb850a565b7a9'),
+ ('luciana.montefio@calydon.com', '9f5eaaecf4d20a3c93d1f34f7997efd2f1217704');
+-- burnice0523, anby0220, grace0414, nicole1111, luciana0814
 
+INSERT INTO RegisteredUser (usrEmail, password, admin) VALUES ('admin@admin.com', '0a07822c91525a83b2beb03690418cc2886d3c63', TRUE);
+-- 'firefly26710'
 -- Card Table
 INSERT INTO Card (cardNum, expiry, cvc, usrEmail) VALUES
     ('1234567812355678', '2025-12-01', 123, 'burnice.white@calydon.com'),
