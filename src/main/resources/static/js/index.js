@@ -76,3 +76,19 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+    const userEmailButton = document.getElementById("user-email-button");
+    const userDropdown = document.getElementById("user-dropdown");
+
+    // Toggle dropdown menu visibility on button click
+    userEmailButton.addEventListener("click", (event) => {
+        event.stopPropagation(); // Prevent the click from propagating to the document
+        userDropdown.classList.toggle("show");
+    });
+
+    // Close dropdown menu when clicking outside
+    document.addEventListener("click", () => {
+        userDropdown.classList.remove("show");
+    });
+});

@@ -15,18 +15,24 @@ public class WebpageController {
     @GetMapping("/")
     public String home(@CookieValue(name = "TOKEN", defaultValue = "none") String token, Model model) {
         // Add data to the model to display in the view
-        String name = "Bobby";
         boolean isLoggedIn = false;
+        RegisteredUser user = null;
         if (!token.equals("none")) {
             // verify token with database
-            RegisteredUser user = cookieService.getUser(token);
-            isLoggedIn = true;
-            model.addAttribute("name", user.getUsrEmail());
+            try {
+                user = cookieService.getUser(token);
+                isLoggedIn = true;
+            } catch (IllegalArgumentException e) {
+                // Invalid token
+            }
+        }
+        if (isLoggedIn) {
+            model.addAttribute("userEmail", user.getUsrEmail());
             boolean isVIP = user.isVIP();
             if (isVIP) {
-                model.addAttribute("VIP_message", "Upgrade to VIP more benifits!");
-            } else {
                 model.addAttribute("VIP_message", "VIP valid until"+user.getVIPExpiry());
+            } else {
+                model.addAttribute("VIP_message", "Upgrade to VIP more benifits!");
             }
         }
         model.addAttribute("loggedIn", isLoggedIn);

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Theatre System</title>
+    <title>Theater System</title>
     <link rel="stylesheet" href="/css/index.css">
     <script src="/js/index.js" defer></script>
     <script src="/js/utils/util.js" defer></script>
@@ -20,7 +20,14 @@
     <div class="account-section">
         <div id="account-info" th:if="${loggedIn}">
             <a th:text="${VIP_message}"></a>
-            <button class="account-button">Account</button>
+            <div class="dropdown">
+                <button class="account-button" id="user-email-button" th:text="${userEmail}"></button>
+                <div class="dropdown-menu" id="user-dropdown">
+                    <button class="dropdown-item" onclick="window.location.href='/my-tickets'">My Tickets</button>
+                    <button class="dropdown-item" onclick="window.location.href='/my-account'">My Account</button>
+                    <button class="dropdown-item" onclick="window.location.href='/logout'">Logout</button>
+                </div>
+            </div>
         </div>
         <div id="sign-in-up" th:unless="${loggedIn}">
             <button class="account-button"><a href="/sign-up" style="text-decoration: none; color: #eee">Sign up</a></button>
