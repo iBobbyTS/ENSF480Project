@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Theater System</title>
+    <title>AcmePlex</title>
     <link rel="stylesheet" href="/css/index.css">
     <script src="/js/index.js" defer></script>
     <script src="/js/utils/util.js" defer></script>
@@ -15,12 +15,12 @@
         </label>
     </div>
     <div class="website-name">
-        <h1>Theater System</h1>
+        <h1>AcmePlex</h1>
     </div>
     <div class="account-section">
         <div id="account-info" th:if="${loggedIn}">
             <div class="role-section">
-                <span class="vip-message" th:if="${!isAdmin}" th:text="${VIP_message}"></span>
+                <a class="vip-message" th:if="${!isAdmin}" th:text="${VIP_message}" href="/vip"></a>
                 <button class="admin-button" th:if="${isAdmin}" onclick="window.location.href='/admin'">Admin Dashboard</button>
             </div>
             <div class="dropdown">

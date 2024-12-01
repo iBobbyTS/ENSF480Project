@@ -1,0 +1,40 @@
+/* General Content Styling */
+.content {
+    text-align: center;
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.content h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* VIP Info Styling */
+.vip-info {
+    text-align: left;
+    margin: 0 auto 30px auto;
+    font-size: 1.2em;
+    line-height: 1.6;
+    padding: 15px 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    max-width: 600px;
+}
+
+/* Pay Button */
+.pay-button {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+    cursor: pointer;
+}
+
+.pay-button:hover {
+    background-color: #218838;
+}

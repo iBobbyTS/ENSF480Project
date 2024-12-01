@@ -1,6 +1,7 @@
 package edu.ucalgary.ensf480.group18.user.model;
 
 import jakarta.persistence.*;
+import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
 
@@ -56,6 +57,10 @@ public class RegisteredUser {
 
     public boolean isVIP() {
         return VIPLastRenewal != null && VIPLastRenewal.isAfter(LocalDate.now().minusYears(1));
+    }
+
+    public LocalDate getVIPLastRenewal() {
+        return VIPLastRenewal;
     }
 
     public String getVIPExpiry() {

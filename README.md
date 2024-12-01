@@ -16,9 +16,10 @@ GRANT ALL PRIVILEGES ON *.* TO 'ensf480'@'localhost' with GRANT OPTION;
 ## Target
 Visit [localhost:8080](http://localhost:8080) in a local browser
 ## TODO
-- admin
-  - add showtime
+-- admin
+  -- add showtime
 - user
+  - vip
   - see showtimes
   - select seat with seat map
   - buy ticket (get email)

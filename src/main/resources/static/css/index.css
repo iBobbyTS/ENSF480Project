@@ -222,3 +222,7 @@ body {
     max-width: 100%; /* Maintain aspect ratio */
     height: auto; /* Scale image proportionally */
 }
+
+.vip-message {
+    color: #eeeeee;
+}

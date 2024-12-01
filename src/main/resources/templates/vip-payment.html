@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIP Payment</title>
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/payment/vip-payment.css">
+</head>
+<body>
+<!-- Header -->
+<header class="top-bar">
+    <div class="left-section">
+        <button class="nav-button" onclick="window.location.href='/'">Home</button>
+    </div>
+    <div class="website-name">
+        <h1>AcmePlex</h1>
+    </div>
+</header>
+
+<!-- Main Content -->
+<div class="content">
+    <h2>VIP Payment</h2>
+
+    <div class="vip-info">
+        <p><strong>Account:</strong> <span th:text="${email}"></span></p>
+        <p><strong>Payment Method:</strong> <span th:text="${paymentMethod}"></span></p>
+        <p><strong>Valid Until:</strong> <span th:text="${vipExpiry}"></span></p>
+        <p><strong>Total:</strong> <span th:text="${total}"></span></p>
+    </div>
+
+    <button class="pay-button" onclick="processPayment()">Pay Now</button>
+</div>
+
+<!-- JavaScript -->
+<script>
+    function processPayment() {
+        alert('Processing your payment...');
+        // Add your payment logic or API call here
+        window.location.href = '/vip-success'; // Redirect to success page
+    }
+</script>
+</body>
+</html>

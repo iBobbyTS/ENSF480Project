@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIP Benefits</title>
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/vip.css">
+</head>
+<body>
+<!-- Header -->
+<header class="top-bar">
+    <div class="left-section">
+        <button class="nav-button" onclick="window.location.href='/'">Home</button>
+    </div>
+    <div class="website-name">
+        <h1>AcmePlex</h1>
+    </div>
+</header>
+
+<!-- Main Content -->
+<div class="content">
+    <h2>VIP Benefits</h2>
+
+    <!-- VIP Status -->
+    <div class="vip-status">
+        <span th:if="${vipStatus != 'none'}" th:text="${vipMessage}" class="vip-message"></span>
+    </div>
+
+    <!-- Get/Extend VIP Button -->
+    <a href="/vip-payment"><button class="vip-button" th:text="${vipStatus == 'valid' ? 'Extend VIP for 1 year' : 'Get VIP for $20/year'}"></button></a>
+
+    <!-- VIP Description -->
+    <div class="vip-description">
+        <p>As a <strong>VIP</strong> with AcmePlex, you enjoy a premium movie-going experience with exclusive benefits and privileges:</p>
+        <ul>
+            <li><strong>No Administrative Cancellation Fee:</strong> Registered Users can cancel their tickets up to 72 hours prior to the show and receive a full credit for future purchases without incurring the standard 15% administrative fee.</li>
+            <li><strong>Early Access to Tickets:</strong> Gain early access to movie showtimes and purchase tickets before they are made available to the general public. Up to 10% of the seats for each show are reserved exclusively for Registered Users, offered on a first-come, first-serve basis.</li>
+            <li><strong>Exclusive News and Updates:</strong> Be the first to know! Registered Users receive movie news and announcements before they are shared with the public, including details about upcoming releases, special events, and promotional offers.</li>
+            <li><strong>Convenience with Saved Information:</strong> Registered Users have their personal information, including name, address, and payment details (credit or debit card), securely stored in the system, making ticket purchases quick and hassle-free.</li>
+            <li><strong>Annual Membership:</strong> All these benefits are available for a nominal annual membership fee of $20.00, ensuring you enjoy a seamless and enhanced movie-going experience with AcmePlex.</li>
+        </ul>
+        <p>By becoming a Registered User, you not only avoid additional fees and delays but also gain access to a host of exclusive perks that elevate your movie experience.</p>
+    </div>
+</div>
+</body>
+</html>
