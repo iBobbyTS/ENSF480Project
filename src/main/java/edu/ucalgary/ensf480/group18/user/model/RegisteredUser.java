@@ -84,4 +84,8 @@ public class RegisteredUser {
     public void addCredit(float amount) {
         this.credit += amount;
     }
+
+    public RefundStrategy getRefundStrategy() {
+        return new RURefundStrategy();
+    }
 }

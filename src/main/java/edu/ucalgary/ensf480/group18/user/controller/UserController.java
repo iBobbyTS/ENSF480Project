@@ -59,15 +59,15 @@ public class UserController {
                     .body("An unexpected error occurred."); // Return 500 with generic error message
         }
     }
-    @PostMapping("/registeredUsers/add")
-    public RegisteredUser addRegisteredUser(@RequestBody RegisteredUser registeredUser){
-        addressService.createAddress(registeredUser.getAddress());
-        Card card = cardService.createCard(registeredUser.getCard());
-        RegisteredUser newUser = registeredUserService.createUser(registeredUser);
-        card.setUser(registeredUser);
-        cardService.updateCard(card);
-        return newUser;
-    }
+//    @PostMapping("/registeredUsers/add")
+//    public RegisteredUser addRegisteredUser(@RequestBody RegisteredUser registeredUser){
+//        addressService.createAddress(registeredUser.getAddress());
+//        Card card = cardService.createCard(registeredUser.getCard());
+//        RegisteredUser newUser = registeredUserService.createUser(registeredUser);
+//        card.setUser(registeredUser);
+//        cardService.updateCard(card);
+//        return newUser;
+//    }
 
 
 }
