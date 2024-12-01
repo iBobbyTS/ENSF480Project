@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Showtime</title>
+    <link rel="stylesheet" href="/css/admin/add-showtime.css">
+    <script src="/js/utils/util.js" defer></script>
+    <script src="/js/admin/add-showtime.js" defer></script>
+</head>
+<body>
+<div class="container">
+    <h1>Add Showtime for: <span th:text="${movieName}"></span></h1>
+
+    <!-- Existing Showtimes Section -->
+    <div class="existing-showtimes">
+        <h3>Existing Showtimes:</h3>
+        <ul>
+            <li th:each="showtime : ${showtimes}" th:text="${showtime}"></li>
+        </ul>
+    </div>
+
+    <!-- Add New Showtimes Section -->
+    <div class="add-showtime-section">
+        <h3>Add New Showtimes:</h3>
+        <div id="time-container">
+            <!-- Default Line with Current Date + 7 Days -->
+            <div class="time-line">
+                <input type="number" class="year" placeholder="YYYY" value="">
+                <input type="number" class="month" placeholder="MM" value="">
+                <input type="number" class="day" placeholder="DD" value="">
+                <input type="number" class="hour" placeholder="HH" value="19">
+                <input type="number" class="minute" placeholder="MM" value="00">
+                <button class="remove-line" style="visibility: hidden">Remove</button>
+            </div>
+            <button id="add-more-button" class="add-more" onclick="addMoreLines()">Add More</button>
+        </div>
+        <button class="submit-button" onclick="submitShowtimes()">Submit</button>
+    </div>
+</div>
+</body>
+</html>

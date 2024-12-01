@@ -23,12 +23,12 @@ INSERT INTO Movie (title, description, duration, coverUrl, trailerUrl, addDate) 
 -- https://m.media-amazon.com/images/M/MV5BZDUxNThhYTUtYjgxNy00MGQ4LTgzOTEtZjg1YTU5NTcwNThlXkEyXkFqcGc@._V1_QL75_UX380_CR0,0,380,562_.jpg
 
 -- ShowTime Table
-# INSERT INTO ShowTime (movieId, theaterId, showTime) VALUES
-# (1, 1, '2024-12-01 14:30:00'),
-# (2, 2, '2024-12-01 19:00:00'),
-# (3, 3, '2024-12-02 13:00:00'),
-# (4, 4, '2024-12-02 16:00:00'),
-# (5, 5, '2024-12-03 18:30:00');
+INSERT INTO ShowTime (movieId, theaterId, showTime) VALUES
+(1, 1, '2024-12-01 14:30:00'),
+(2, 2, '2024-12-01 19:00:00'),
+(3, 3, '2024-12-02 13:00:00'),
+(4, 4, '2024-12-02 16:00:00'),
+(5, 5, '2024-12-03 18:30:00');
 
 -- Seat Table
 # INSERT INTO Seat (seatRow, seatColumn, isReserved, showTimeId, seatPrice) VALUES

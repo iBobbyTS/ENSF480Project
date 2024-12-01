@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
             addShowtimeButton.textContent = "Add Showtime";
             addShowtimeButton.classList.add("add-showtime");
             addShowtimeButton.addEventListener("click", () => {
-                window.location.href = `/add-showtime?movieTitle=${encodeURIComponent(movie.title)}`;
+                window.location.href = `/admin/add-showtime?id=${movie.movieId}`;
             });
 
             const removeMovieButton = document.createElement("button");

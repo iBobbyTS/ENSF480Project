@@ -39,11 +39,13 @@ public class MovieController {
 //    }
 
     //Use this to get the seat details for a specific showtime
+    /*
     @GetMapping("/get/{showTimeId}")
-    public ShowTime getShowTime(@PathVariable Long showTimeId){
+    public ShowTime getShowTime(@PathVariable int showTimeId){
         return showTimeService.getShowTime(showTimeId);
     }
 
+    */
     @GetMapping("/search")
     public List<Movie> searchMovies(@RequestParam String title){
         return movieService.searchMovies(title.toLowerCase());

@@ -12,7 +12,7 @@ public class ShowTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long showTimeId;
+    private int showTimeId;
 
     @ManyToOne
     @JoinColumn(name = "movieId", nullable = false)
@@ -39,11 +39,11 @@ public class ShowTime {
         this.showTime = showTime;
     }
 
-    public Long getShowTimeId() {
+    public int getShowTimeId() {
         return showTimeId;
     }
 
-    public void setShowTimeId(Long showTimeId) {
+    public void setShowTimeId(int showTimeId) {
         this.showTimeId = showTimeId;
     }
 

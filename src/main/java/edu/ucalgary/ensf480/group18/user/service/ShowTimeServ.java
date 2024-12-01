@@ -8,7 +8,7 @@ import edu.ucalgary.ensf480.group18.user.model.Theater;
 import java.util.List;
 
 public interface ShowTimeServ {
-    ShowTime createShowTime(ShowTime showTime);
-    ShowTime getShowTime(Long showTimeId);
+    void createShowTime(ShowTime showTime);
+    List<ShowTime> getShowTimesByMovieId(int showTimeId);
     List<ShowTime> generateShowTimes(Movie movie, Theater theater);
 }
