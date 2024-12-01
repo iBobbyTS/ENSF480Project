@@ -1,24 +1,24 @@
 document.addEventListener("DOMContentLoaded", () => {
     const moviesTableBody = document.getElementById("movies-body");
-    const batchRemoveButton = document.getElementById("batch-remove-movie");
 
-    // Simulated movie data
-    const movies = [
-        { id: 1, name: "Movie 1", addDate: "2024-11-25" },
-        { id: 2, name: "Movie 2", addDate: "2024-11-26" },
-        { id: 3, name: "Movie 3", addDate: "2024-11-27" },
-    ];
+    // Fetch movies from API and render the table
+    function fetchMovies() {
+        get('/api/movies', (httpRequest) => {
+            const movies = JSON.parse(httpRequest.responseText);
+            renderMovies(movies);
+        });
+    }
 
     // Function to render the movie table
-    function renderMovies() {
+    function renderMovies(movies) {
         moviesTableBody.innerHTML = ""; // Clear table content
 
         movies.forEach((movie) => {
             const row = document.createElement("tr");
 
-            // Movie Name
-            const nameCell = document.createElement("td");
-            nameCell.textContent = movie.name;
+            // Movie Title
+            const titleCell = document.createElement("td");
+            titleCell.textContent = movie.title;
 
             // Add Date
             const dateCell = document.createElement("td");
@@ -30,15 +30,15 @@ document.addEventListener("DOMContentLoaded", () => {
             addShowtimeButton.textContent = "Add Showtime";
             addShowtimeButton.classList.add("add-showtime");
             addShowtimeButton.addEventListener("click", () => {
-                window.location.href = `/add-showtime?movieId=${movie.id}`;
+                window.location.href = `/add-showtime?movieTitle=${encodeURIComponent(movie.title)}`;
             });
 
             const removeMovieButton = document.createElement("button");
             removeMovieButton.textContent = "Remove Movie";
             removeMovieButton.classList.add("remove-movie");
             removeMovieButton.addEventListener("click", () => {
-                if (confirm(`Are you sure you want to remove "${movie.name}"?`)) {
-                    removeMovie(movie.id);
+                if (confirm(`Are you sure you want to remove "${movie.title}"?`)) {
+                    removeMovie(movie.movieId);
                 }
             });
 
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
             actionCell.appendChild(removeMovieButton);
 
             // Append cells to the row
-            row.appendChild(nameCell);
+            row.appendChild(titleCell);
             row.appendChild(dateCell);
             row.appendChild(actionCell);
 
@@ -57,21 +57,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Function to remove a movie
     function removeMovie(movieId) {
-        const movieIndex = movies.findIndex((movie) => movie.id === movieId);
-        if (movieIndex > -1) {
-            movies.splice(movieIndex, 1);
-            renderMovies(); // Re-render the table
-        }
+        request_delete(
+            `/api/admin/remove-movie`,
+            () => {
+                window.location.href = '/admin';
+            },
+            { movieId: movieId });
     }
 
-    // Batch remove button handler (for demo purposes)
-    batchRemoveButton.addEventListener("click", () => {
-        if (confirm("Are you sure you want to remove all movies?")) {
-            movies.length = 0; // Clear all movies
-            renderMovies(); // Re-render the table
-        }
-    });
-
-    // Initial render
-    renderMovies();
+    // Fetch and render movies initially
+    fetchMovies();
 });

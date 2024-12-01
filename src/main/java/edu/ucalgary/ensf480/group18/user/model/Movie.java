@@ -82,4 +82,8 @@ public class Movie {
         return addDate;
     }
 
+    public void setAddDate() {
+        this.addDate = LocalDate.now();
+    }
+
 }

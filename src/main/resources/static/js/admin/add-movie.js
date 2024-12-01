@@ -1,3 +1,4 @@
+
 function submit() {
     // Collect form data
     const formData = {
@@ -16,10 +17,11 @@ function submit() {
 
     // Send data to backend (example implementation, replace with actual API)
     post_json("/api/admin/add-movie", formData, (httpRequest) => {
-        const response = JSON.parse(httpRequest.responseText);
+        console.log(httpRequest);
+        const response = JSON.parse(httpRequest);
         if (response.success === 0) {
-            alert("Movie added successfully!");
-            window.location.href = "/admin-dashboard"; // Redirect to admin dashboard
+            // alert("Movie added successfully!");
+            window.location.href = "/admin"; // Redirect to admin dashboard
         } else {
             alert("Failed to add movie: " + response.message);
         }

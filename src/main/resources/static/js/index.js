@@ -1,3 +1,120 @@
+/*
+// Declare `newDetailsBlock` as a global variable
+let newDetailsBlock = null;
+
+document.addEventListener("DOMContentLoaded", () => {
+    const movieGrid = document.getElementById("movie-grid");
+    const detailsBlockTemplate = document.getElementById("details-block");
+
+    // Fetch movies from API
+    get('/api/movies', (httpRequest) => {
+        const movies = JSON.parse(httpRequest.responseText);
+        const movieElements = []; // Store movie elements
+        movies.forEach((movie, index) => {
+            // Create movie element
+            const movieElement = document.createElement("div");
+            movieElement.classList.add("movie");
+            movieElement.dataset.index = index;
+
+            // Add cover
+            const cover = document.createElement("img");
+            cover.src = movie.coverUrl;
+            cover.alt = movie.title;
+            cover.classList.add("movie-cover");
+
+            // Add title
+            const title = document.createElement("div");
+            title.classList.add("movie-title");
+            title.textContent = movie.title;
+
+            // Append cover and title to movie element
+            movieElement.appendChild(cover);
+            movieElement.appendChild(title);
+
+            // Append movie to grid
+            movieGrid.appendChild(movieElement);
+            movieElements.push(movieElement);
+
+            // Add click event for details
+            movieElement.addEventListener("click", () => {
+                // Remove existing details block if any
+                if (newDetailsBlock) {
+                    newDetailsBlock.remove();
+                    newDetailsBlock = null;
+                }
+
+                // Update details block content
+                newDetailsBlock = detailsBlockTemplate.cloneNode(true);
+                newDetailsBlock.classList.add("inserted");
+                newDetailsBlock.style.display = "block";
+
+                // Update details block content using class selectors
+                newDetailsBlock.querySelector(".details-title").textContent = movie.title;
+                newDetailsBlock.querySelector(".details-actors").textContent = movie.description;
+                newDetailsBlock.querySelector(".details-duration").textContent = `Duration: ${movie.duration} minutes`;
+                // find element by id
+                newDetailsBlock.querySelector("#btn-watch-trailer").href = movie.trailerUrl;
+                newDetailsBlock.querySelector("#btn-buy-ticket").href = `/ticket?movie=${movie.id}`;
+                newDetailsBlock.style.backgroundImage = `url(${movie.coverUrl})`;
+
+
+                // Add a close button to the details block
+                const closeButton = document.createElement("button");
+                closeButton.classList.add("btn-close");
+                closeButton.textContent = "Close";
+                closeButton.addEventListener("click", () => {
+                    newDetailsBlock.remove();
+                    newDetailsBlock = null;
+                });
+                newDetailsBlock.appendChild(closeButton);
+
+                // Calculate the position to insert the details block
+                const rowSize = 5;
+                const rowIndex = Math.floor(index / rowSize);
+                const insertAfterIndex = (rowIndex + 1) * rowSize - 1;
+                const adjustedIndex = Math.min(insertAfterIndex, movieElements.length - 1);
+
+                const insertAfterElement = movieElements[adjustedIndex];
+
+                // Insert the details block after the insertAfterElement
+                insertAfterElement.after(newDetailsBlock);
+            });
+        });
+    });
+    const userEmailButton = document.getElementById("user-email-button");
+    const userDropdown = document.getElementById("user-dropdown");
+
+    // Toggle dropdown menu visibility on button click
+    if (userEmailButton && userDropdown) {
+        userEmailButton.addEventListener("click", (event) => {
+            event.stopPropagation(); // Prevent the click from propagating to the document
+            userDropdown.classList.toggle("show");
+        });
+        // Close dropdown menu when clicking outside
+        document.addEventListener("click", () => {
+            userDropdown.classList.remove("show");
+        });
+    }
+});
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//////////////
+
 // Declare `newDetailsBlock` as a global variable
 let newDetailsBlock = null;
 
@@ -85,6 +202,20 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
     });
+    const userEmailButton = document.getElementById("user-email-button");
+    const userDropdown = document.getElementById("user-dropdown");
+
+    // Toggle dropdown menu visibility on button click
+    if (userEmailButton && userDropdown) {
+        userEmailButton.addEventListener("click", (event) => {
+            event.stopPropagation(); // Prevent the click from propagating to the document
+            userDropdown.classList.toggle("show");
+        });
+        // Close dropdown menu when clicking outside
+        document.addEventListener("click", () => {
+            userDropdown.classList.remove("show");
+        });
+    }
 });
 
 
