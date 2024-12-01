@@ -7,12 +7,14 @@ INSERT INTO Theater (theaterNumber, capacity, theaterType) VALUES
 ('Theater 5', 100, 'Standard');
 #
 # Movie Table
-# INSERT INTO Movie (title, genre, releaseDate) VALUES
-# ('The Matrix', 'Sci-Fi', '1999-03-31'),
-# ('Inception', 'Thriller', '2010-07-16'),
-# ('Avengers: Endgame', 'Action', '2019-04-26'),
-# ('Interstellar', 'Sci-Fi', '2014-11-07'),
-# ('Titanic', 'Romance', '1997-12-19');
+INSERT INTO Movie (title, description, duration, coverUrl, trailerUrl) VALUES
+('The Wild Robot', 'After a shipwreck, an intelligent robot called Roz is stranded on an uninhabited island. To survive the harsh environment, Roz bonds with the island''s animals and cares for an orphaned baby goose.', 90, 'https://m.media-amazon.com/images/M/MV5BZjM2M2E3YzAtZDJjYy00MDhkLThiYmItOGZhNzQ3NTgyZmI0XkEyXkFqcGc@._V1_QL75_UX380_CR0,20,380,562_.jpg', 'https://www.imdb.com/title/tt29623480'),
+('Maharaja', 'A barber seeks vengeance after his home is burglarized, cryptically telling police his "lakshmi" has been taken, leaving them uncertain if it''s a person or object. His quest to recover the elusive "lakshmi" unfolds.', 175, 'https://m.media-amazon.com/images/M/MV5BOTFlMTIxOGItZTk0Zi00MTk2LWJiM2UtMzlhZWYzNjQ4N2Y3XkEyXkFqcGc@._V1_FMjpg_UY2048_.jpg', 'https://www.imdb.com/title/tt26548265'),
+('Dune: Part Two', 'Paul Atreides unites with the Fremen while on a warpath of revenge against the conspirators who destroyed his family. Facing a choice between the love of his life and the fate of the universe, he endeavors to prevent a terrible future.', 120, 'https://m.media-amazon.com/images/M/MV5BNTc0YmQxMjEtODI5MC00NjFiLTlkMWUtOGQ5NjFmYWUyZGJhXkEyXkFqcGc@._V1_QL75_UX380_CR0,0,380,562_.jpg', 'https://www.imdb.com/title/tt15239678'),
+('12th Fail', 'The real-life story of IPS Officer Manoj Kumar Sharma and IRS Officer Shraddha Joshi.', 120, 'https://m.media-amazon.com/images/M/MV5BNTE3OTIxZDYtNjA0NC00N2YxLTg1NGQtOTYxNmZkMDkwOWNjXkEyXkFqcGc@._V1_QL75_UY562_CR24,0,380,562_.jpg', 'https://www.imdb.com/title/tt23849204'),
+('Oppenheimer', 'A dramatization of the life story of J. Robert Oppenheimer, the physicist who had a large hand in the development of the atomic bombs that brought an end to World War II.', 120, 'https://m.media-amazon.com/images/M/MV5BN2JkMDc5MGQtZjg3YS00NmFiLWIyZmQtZTJmNTM5MjVmYTQ4XkEyXkFqcGc@._V1_SL200_QL1.jpg', 'https://www.imdb.com/title/tt15398776'),
+('Spider-Man: Across the Spider-Verse', 'Miles Morales catapults across the multiverse, where he encounters a team of Spider-People charged with protecting its very existence. When the heroes clash on how to handle a new threat, Miles must redefine what it means to be a hero.', 111, 'https://m.media-amazon.com/images/M/MV5BNThiZjA3MjItZGY5Ni00ZmJhLWEwN2EtOTBlYTA4Y2E0M2ZmXkEyXkFqcGc@._V1_QL75_UX380_CR0,1,380,562_.jpg', 'https://www.imdb.com/title/tt9362722')
+;
 #
 # -- ShowTime Table
 # INSERT INTO ShowTime (movieId, theaterId, showTime) VALUES

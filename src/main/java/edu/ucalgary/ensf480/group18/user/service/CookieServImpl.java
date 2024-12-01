@@ -5,6 +5,7 @@ import edu.ucalgary.ensf480.group18.user.model.RegisteredUser;
 import edu.ucalgary.ensf480.group18.user.repository.CookieRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.security.SecureRandom;
 import java.time.LocalDate;
@@ -14,8 +15,19 @@ public class CookieServImpl implements CookieServ {
     @Autowired
     private CookieRepo cookieRepository;
 
+    @Autowired
+    private RegisteredUserServ registeredUserService;
+
     public CookieServImpl(CookieRepo cookieRepository) {
         this.cookieRepository = cookieRepository;
+    }
+
+    public void logExistingUserInByEmail(String token, String email) {
+        RegisteredUser user = registeredUserService.getUserByEmailAddress(email);
+        if (user == null) {
+            throw new IllegalArgumentException("User with email " + email + " does not exist.");
+        }
+        addRow(token, user);
     }
 
     @Override
@@ -63,5 +75,19 @@ public class CookieServImpl implements CookieServ {
             token.append(chars.charAt(random.nextInt(chars.length())));
         }
         return token.toString();
+    }
+    @Override
+    @Transactional
+    public void deleteByToken(String token) {
+        cookieRepository.deleteByToken(token);
+    }
+
+    @Override
+    public boolean isAdmin(String token) {
+        Cookie cookie = cookieRepository.findByToken(token);
+        if (cookie == null) {
+            return false;
+        }
+        return cookie.getUser().isAdmin();
     }
 }

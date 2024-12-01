@@ -6,5 +6,5 @@ import java.util.Optional;
 
 public interface CookieRepo extends JpaRepository<Cookie, Integer> {
     Cookie findByToken(String token);
-
+    void deleteByToken(String token);
 }

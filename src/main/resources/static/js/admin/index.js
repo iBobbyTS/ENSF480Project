@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
     const moviesTableBody = document.getElementById("movies-body");
-    const addMovieButton = document.getElementById("add-movie");
     const batchRemoveButton = document.getElementById("batch-remove-movie");
 
     // Simulated movie data
@@ -69,20 +68,6 @@ document.addEventListener("DOMContentLoaded", () => {
     batchRemoveButton.addEventListener("click", () => {
         if (confirm("Are you sure you want to remove all movies?")) {
             movies.length = 0; // Clear all movies
-            renderMovies(); // Re-render the table
-        }
-    });
-
-    // Add movie button handler (for demo purposes)
-    addMovieButton.addEventListener("click", () => {
-        const newMovieName = prompt("Enter the new movie name:");
-        if (newMovieName) {
-            const newMovie = {
-                id: movies.length + 1,
-                name: newMovieName,
-                addDate: new Date().toISOString().split("T")[0], // Current date
-            };
-            movies.push(newMovie);
             renderMovies(); // Re-render the table
         }
     });

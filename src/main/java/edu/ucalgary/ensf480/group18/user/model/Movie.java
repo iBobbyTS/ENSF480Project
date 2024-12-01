@@ -18,8 +18,12 @@ public class Movie {
     private List<ShowTime> showTimes = new ArrayList<>(); // Best practice: Initialize the list
 
     private String title;
-    private String genre;
-    private LocalDate releaseDate;
+
+    private int duration;
+    private String description;
+    private String trailerUrl;
+    private String coverUrl;
+    private LocalDate addDate;
 
     // Default constructor (required by JPA)
     public Movie() {
@@ -27,19 +31,18 @@ public class Movie {
     }
 
     // Parameterized constructor for easier object creation
-    public Movie(String title, String genre, LocalDate releaseDate) {
+    public Movie(String title, int duration, String description, String trailerUrl, String coverUrl, LocalDate addDate) {
         this.title = title;
-        this.genre = genre;
-        this.releaseDate = releaseDate;
+        this.duration = duration;
+        this.description = description;
+        this.trailerUrl = trailerUrl;
+        this.coverUrl = coverUrl;
+        this.addDate = addDate;
     }
 
     // Getters and setters
     public int getMovieId() {
         return movieId;
-    }
-
-    public void setMovieId(int movieId) {
-        this.movieId = movieId;
     }
 
     public List<ShowTime> getShowTimes() {
@@ -50,28 +53,33 @@ public class Movie {
         this.showTimes = showTimes;
     }
 
+    public void addShowTime(ShowTime showTime) {
+        showTimes.add(showTime);
+        showTime.setMovie(this);
+    }
+
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public int getDuration() {
+        return duration;
     }
 
-    public String getGenre() {
-        return genre;
+    public String getDescription() {
+        return description;
     }
 
-    public void setGenre(String genre) {
-        this.genre = genre;
+    public String getTrailerUrl() {
+        return trailerUrl;
     }
 
-    public LocalDate getReleaseDate() {
-        return releaseDate;
+    public String getCoverUrl() {
+        return coverUrl;
     }
 
-    public void setReleaseDate(LocalDate releaseDate) {
-        this.releaseDate = releaseDate;
+    public LocalDate getAddDate() {
+        return addDate;
     }
 
 }

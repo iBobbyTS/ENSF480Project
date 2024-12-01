@@ -132,37 +132,43 @@ body {
 }
 
 
+/* Ensure the VIP message and email button are aligned horizontally */
+#account-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 /* Dropdown container */
 .dropdown {
     position: relative;
     display: inline-block;
 }
 
-/* Dropdown menu styling */
+/* Dropdown menu */
 .dropdown-menu {
     display: none; /* Hidden by default */
     position: absolute;
-    top: 100%;
-    right: 0;
+    top: 100%; /* Below the email button */
+    right: 0; /* Align with the button */
     background-color: #555;
     min-width: 150px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    z-index: 1;
     border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     overflow: hidden;
+    z-index: 1000; /* Ensure it's above other elements */
 }
 
 /* Dropdown menu items */
 .dropdown-item {
-    width: 100%;
     padding: 10px;
-    text-align: left;
     color: white;
     background-color: #555;
+    text-align: left;
     border: none;
     outline: none;
     cursor: pointer;
-    font-size: 1em;
+    width: 100%;
     display: block;
 }
 
@@ -170,8 +176,49 @@ body {
     background-color: #777;
 }
 
-/* Show dropdown menu when hovering or clicking */
-.dropdown:hover .dropdown-menu,
-.dropdown.show .dropdown-menu {
+/* Show dropdown menu when .show class is added */
+.dropdown-menu.show {
     display: block;
+}
+
+
+/* Align VIP message or Admin Dashboard button horizontally with the email button */
+.role-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Admin button styling */
+.admin-button {
+    padding: 8px 16px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.admin-button:hover {
+    background-color: #218838;
+}
+
+/* Fixed height container for movie covers */
+.cover-container {
+    width: 100%; /* Full width of the grid column */
+    aspect-ratio: 0.6761565836; /* Fixed height for the container */
+    position: relative; /* Required for centering the image */
+    overflow: hidden; /* Hide parts of the image outside the container */
+    border-radius: 10px; /* Optional: rounded corners */
+    /*background-color: #f0f0f0; !* Optional: placeholder color for empty covers *!*/
+}
+
+/* Movie cover styling */
+.movie-cover {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the image */
+    max-width: 100%; /* Maintain aspect ratio */
+    height: auto; /* Scale image proportionally */
 }

@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Fetch movies from API
     get('/api/movies', (httpRequest) => {
         const movies = JSON.parse(httpRequest.responseText);
+        console.log(movies);
         const movieElements = []; // Store movie elements
         movies.forEach((movie, index) => {
             // Create movie element
@@ -15,19 +16,26 @@ document.addEventListener("DOMContentLoaded", () => {
             movieElement.classList.add("movie");
             movieElement.dataset.index = index;
 
-            // Add cover
+            // Create cover container
+            const coverContainer = document.createElement("div");
+            coverContainer.classList.add("cover-container");
+
+            // Add cover image
             const cover = document.createElement("img");
-            cover.src = movie.cover;
+            cover.src = movie.coverUrl;
             cover.alt = movie.title;
             cover.classList.add("movie-cover");
+
+            // Append cover image to the container
+            coverContainer.appendChild(cover);
 
             // Add title
             const title = document.createElement("div");
             title.classList.add("movie-title");
             title.textContent = movie.title;
 
-            // Append cover and title to movie element
-            movieElement.appendChild(cover);
+            // Append cover container and title to movie element
+            movieElement.appendChild(coverContainer);
             movieElement.appendChild(title);
 
             // Append movie to grid
@@ -49,8 +57,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 // Update details block content using class selectors
                 newDetailsBlock.querySelector(".details-title").textContent = movie.title;
-                newDetailsBlock.querySelector(".details-actors").textContent = `Actors: ${movie.actors}`;
-                newDetailsBlock.querySelector(".details-duration").textContent = `Duration: ${movie.duration}`;
+                newDetailsBlock.querySelector(".details-actors").textContent = movie.description;
+                newDetailsBlock.querySelector(".details-duration").textContent = `Duration: ${movie.duration} minutes`;
+                newDetailsBlock.querySelector("#btn-watch-trailer").href = movie.trailerUrl;
+                newDetailsBlock.querySelector("#btn-buy-ticket").href = `/movie/buy-ticket?movie=${movie.movieId}`;
 
                 // Add a close button to the details block
                 const closeButton = document.createElement("button");
@@ -77,18 +87,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-    const userEmailButton = document.getElementById("user-email-button");
-    const userDropdown = document.getElementById("user-dropdown");
 
-    // Toggle dropdown menu visibility on button click
-    userEmailButton.addEventListener("click", (event) => {
-        event.stopPropagation(); // Prevent the click from propagating to the document
-        userDropdown.classList.toggle("show");
+function logout() {
+    request_delete('/api/sign-out', () => {
+        window.location.href = '/';
     });
-
-    // Close dropdown menu when clicking outside
-    document.addEventListener("click", () => {
-        userDropdown.classList.remove("show");
-    });
-});
+}

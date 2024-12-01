@@ -1,4 +1,5 @@
-document.addEventListener('DOMContentLoaded', () => {
+function signin() {
+
     const signinForm = document.getElementById('signin-form');
     const emailInput = document.getElementById('email');
     const passwordInput = document.getElementById('password');
@@ -6,50 +7,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const passwordError = document.getElementById('password-error');
     const serverError = document.getElementById('server-error');
 
-    signinForm.addEventListener('submit', async (event) => {
-        event.preventDefault(); // Prevent the default form submission
+    // Clear error messages
+    emailError.textContent = '';
+    passwordError.textContent = '';
+    serverError.textContent = '';
 
-        // Clear error messages
-        emailError.textContent = '';
-        passwordError.textContent = '';
-        serverError.textContent = '';
+    const email = emailInput.value.trim();
+    const password = passwordInput.value.trim();
 
-        const email = emailInput.value.trim();
-        const password = passwordInput.value.trim();
+    // Client-side validation
+    if (!email) {
+        emailError.textContent = 'Email is required.';
+        return;
+    }
+    if (!password) {
+        passwordError.textContent = 'Password is required.';
+        return;
+    }
 
-        // Client-side validation
-        if (!email) {
-            emailError.textContent = 'Email is required.';
-            return;
-        }
-        if (!password) {
-            passwordError.textContent = 'Password is required.';
-            return;
-        }
+    // Send POST request to backend using post_json
+    post_json('/api/sign-in', {'email': email, 'password': sha1(password)}, (responseText) => {
+        const data = JSON.parse(responseText);
 
-        try {
-            // Send POST request to backend
-            const response = await fetch('/api/sign-in', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email, password }),
-            });
-
-            const data = await response.json();
-
-            // Handle the response
-            if (data.success) {
-                // Redirect to home page on success
-                window.location.href = '/';
-            } else {
-                // Display server-side error message
-                serverError.textContent = data.message || 'Invalid login credentials.';
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            serverError.textContent = 'An unexpected error occurred. Please try again.';
+        // Handle the response
+        if (data.success === 0) {
+            // Redirect to home page on success
+            window.location.href = '/';
+        } else {
+            // Display server-side error message
+            serverError.textContent = data.message || 'Invalid login credentials.';
         }
     });
-});
+}

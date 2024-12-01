@@ -15,7 +15,7 @@ public class MovieServImpl implements MovieServ{
     private MovieRepo movieRepo;
 
     @Override
-    public Movie createMovie(Movie movie) {
+    public Movie addMovie(Movie movie) {
         return movieRepo.save(movie);
     }
 
@@ -25,8 +25,8 @@ public class MovieServImpl implements MovieServ{
     }
 
     @Override
-    public List<Movie> getAllMovies(LocalDate currentDate) {
-        return movieRepo.findAllMoviesByDate(currentDate);
+    public List<Movie> getAllMovies() {
+        return movieRepo.findAll();
     }
 
     @Override

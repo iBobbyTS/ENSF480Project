@@ -19,13 +19,16 @@
     </div>
     <div class="account-section">
         <div id="account-info" th:if="${loggedIn}">
-            <a th:text="${VIP_message}"></a>
+            <div class="role-section">
+                <span class="vip-message" th:if="${!isAdmin}" th:text="${VIP_message}"></span>
+                <button class="admin-button" th:if="${isAdmin}" onclick="window.location.href='/admin'">Admin Dashboard</button>
+            </div>
             <div class="dropdown">
                 <button class="account-button" id="user-email-button" th:text="${userEmail}"></button>
                 <div class="dropdown-menu" id="user-dropdown">
                     <button class="dropdown-item" onclick="window.location.href='/my-tickets'">My Tickets</button>
                     <button class="dropdown-item" onclick="window.location.href='/my-account'">My Account</button>
-                    <button class="dropdown-item" onclick="window.location.href='/logout'">Logout</button>
+                    <button class="dropdown-item" onclick="logout()">Logout</button>
                 </div>
             </div>
         </div>
@@ -34,6 +37,7 @@
             <button class="account-button"><a href="/sign-in" style="text-decoration: none; color: #eee">Sign in</a></button>
         </div>
     </div>
+
 </header>
 <div class="movie-grid" id="movie-grid"></div>
 
@@ -45,8 +49,8 @@
         <p class="details-duration">Duration: </p>
     </div>
     <div class="details-right">
-        <button class="btn-watch-trailer">Watch Trailer</button>
-        <button class="btn-buy-ticket">Buy Ticket</button>
+        <a id="btn-watch-trailer" target="_blank"><button class="btn-watch-trailer">Watch Trailer</button></a>
+        <a id="btn-buy-ticket" target="_blank"><button class="btn-buy-ticket">Buy Ticket</button></a>
     </div>
 </div>
 </body>

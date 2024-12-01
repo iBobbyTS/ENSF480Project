@@ -16,6 +16,7 @@ public class WebpageController {
     public String home(@CookieValue(name = "TOKEN", defaultValue = "none") String token, Model model) {
         // Add data to the model to display in the view
         boolean isLoggedIn = false;
+        boolean isAdmin = false;
         RegisteredUser user = null;
         if (!token.equals("none")) {
             // verify token with database
@@ -34,14 +35,16 @@ public class WebpageController {
             } else {
                 model.addAttribute("VIP_message", "Upgrade to VIP more benifits!");
             }
+            isAdmin = user.isAdmin();
         }
+        model.addAttribute("isAdmin", isAdmin);
         model.addAttribute("loggedIn", isLoggedIn);
         // Return the name of the HTML file (without the .html extension)
         return "index";
     }
 
     @GetMapping("/sign-up")
-    public String signUp(@CookieValue(name = "USER_TOKEN", defaultValue = "none") String userToken) {
+    public String signUp(@CookieValue(name = "TOKEN", defaultValue = "none") String userToken) {
         // Check if signed in with the cookie
 //                if (true) { // Simulate valid token check
 //            return "redirect:/"; // Redirect to home page if logged in
@@ -51,12 +54,12 @@ public class WebpageController {
     }
 
     @GetMapping("/sign-in")
-    public String signIn(@CookieValue(name = "USER_TOKEN", defaultValue = "none") String userToken) {
+    public String signIn(@CookieValue(name = "TOKEN", defaultValue = "none") String userToken) {
         return "sign-in";
     }
 
     @GetMapping("/payment/bank")
-    public String bankPayment(@CookieValue(name = "USER_TOKEN", defaultValue = "none") String userToken) {
+    public String bankPayment(@CookieValue(name = "TOKEN", defaultValue = "none") String userToken) {
         return "payment/bank";
     }
     @GetMapping("/movie/buy-ticket")

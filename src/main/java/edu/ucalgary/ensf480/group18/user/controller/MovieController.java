@@ -32,11 +32,11 @@ public class MovieController {
     @Autowired
     private TheaterServ theaterService;
 
-    @GetMapping("/getAll/{date}")
-    public List<Movie> getAllMovies(@PathVariable String date){
-        LocalDate date1 = LocalDate.parse(date);
-        return movieService.getAllMovies(date1);
-    }
+//    @GetMapping("/getAll/{date}")
+//    public List<Movie> getAllMovies(@PathVariable String date){
+//        LocalDate date1 = LocalDate.parse(date);
+//        return movieService.getAllMovies(date1);
+//    }
 
     //Use this to get the seat details for a specific showtime
     @GetMapping("/get/{showTimeId}")
@@ -72,31 +72,31 @@ public class MovieController {
         return null;
     }
 
-    @PostMapping("/create")
-    public Movie createMovie(@RequestParam String title, @RequestParam String genre, @RequestParam String releaseDate) {
-        Movie movie = new Movie();
-        movie.setTitle(title);
-        movie.setGenre(genre);
-        movie.setReleaseDate(LocalDate.parse(releaseDate));
-
-        Movie savedMovie = movieService.createMovie(movie);
-        Theater theater = theaterService.getTheater(1L);
-        // Generate and add showtimes in place
-        List<ShowTime> generatedShowTimes = showTimeService.generateShowTimes(savedMovie, theater);
-        for(ShowTime showTime : generatedShowTimes){
-            showTimeService.createShowTime(showTime);
-            List<Seat> seats = seatService.generateSeats(showTime);
-            for(Seat seat : seats){
-                seatService.createSeat(seat);
-            }
-            showTime.setSeats(seats);
-        }
-        savedMovie.setShowTimes(generatedShowTimes);
-
-        movieService.updateMovie(savedMovie);
-
-        return savedMovie;
-    }
+//    @PostMapping("/create")
+//    public Movie createMovie(@RequestParam String title, @RequestParam String genre, @RequestParam String releaseDate) {
+//        Movie movie = new Movie();
+//        movie.setTitle(title);
+//        movie.setGenre(genre);
+//        movie.setReleaseDate(LocalDate.parse(releaseDate));
+//
+//        Movie savedMovie = movieService.createMovie(movie);
+//        Theater theater = theaterService.getTheater(1L);
+//        // Generate and add showtimes in place
+//        List<ShowTime> generatedShowTimes = showTimeService.generateShowTimes(savedMovie, theater);
+//        for(ShowTime showTime : generatedShowTimes){
+//            showTimeService.createShowTime(showTime);
+//            List<Seat> seats = seatService.generateSeats(showTime);
+//            for(Seat seat : seats){
+//                seatService.createSeat(seat);
+//            }
+//            showTime.setSeats(seats);
+//        }
+//        savedMovie.setShowTimes(generatedShowTimes);
+//
+//        movieService.updateMovie(savedMovie);
+//
+//        return savedMovie;
+//    }
 
 
 

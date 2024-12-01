@@ -6,6 +6,14 @@ import edu.ucalgary.ensf480.group18.user.model.RegisteredUser;
 import java.time.LocalDate;
 
 public interface CookieServ {
+    void logExistingUserInByEmail(String token, String email);
+    /**
+     * Retrieves the add date for a given token.
+     * Require user already exists
+     *
+     * @param token the unique token of the cookie.
+     * @return the date the cookie was added.
+     */
 
     /**
      * Adds a new cookie entry for the given user.
@@ -32,4 +40,6 @@ public interface CookieServ {
     String getUserEmail(String token);
 
     RegisteredUser getUser(String token);
+    void deleteByToken(String token);
+    boolean isAdmin(String token);
 }

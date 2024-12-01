@@ -23,4 +23,9 @@ public class RegisteredUserServImpl implements RegisteredUserServ {
     public boolean emailExists(String email) {
         return registeredUserRepo.findByUsrEmail(email) != null;
     }
+
+    public boolean verifyUser(String email, String password) {
+        RegisteredUser user = registeredUserRepo.findByUsrEmail(email);
+        return user != null && user.getPassword().equals(password);
+    }
 }
