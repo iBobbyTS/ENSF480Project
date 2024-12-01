@@ -15,3 +15,18 @@ GRANT ALL PRIVILEGES ON *.* TO 'ensf480'@'localhost' with GRANT OPTION;
 `mvn spring-boot:run`
 ## Target
 Visit [localhost:8080](http://localhost:8080) in a local browser
+## TODO
+- admin
+  - add showtime
+- user
+  - see showtimes
+  - select seat with seat map
+  - buy ticket (get email)
+  - buy ticket with coupon
+  - cancel ticket (get coupon with email)
+- registered user
+  - update payment method
+  - pay anual fee
+  - see ticket history
+  - cancel ticket (get credit in account)
+  - buy ticket with credit
