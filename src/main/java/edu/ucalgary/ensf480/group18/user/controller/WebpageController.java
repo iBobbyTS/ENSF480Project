@@ -160,5 +160,9 @@ public class WebpageController {
 
         return "vip-payment"; // Thymeleaf template name
     }
+    @GetMapping("/payment/add")
+    public String addPaymentMethod() {
+        return "/payment/add"; // Thymeleaf template name
+    }
 }
 

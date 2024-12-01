@@ -1,11 +1,12 @@
 package edu.ucalgary.ensf480.group18.user.controller;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+import edu.ucalgary.ensf480.group18.user.model.Card;
 import edu.ucalgary.ensf480.group18.user.model.Movie;
-import edu.ucalgary.ensf480.group18.user.service.CookieServ;
-import edu.ucalgary.ensf480.group18.user.service.CookieServImpl;
-import edu.ucalgary.ensf480.group18.user.service.MovieServ;
+import edu.ucalgary.ensf480.group18.user.service.*;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import edu.ucalgary.ensf480.group18.user.model.RegisteredUser;
-import edu.ucalgary.ensf480.group18.user.service.RegisteredUserServ;
 
 
 class UserAccount {
@@ -39,6 +39,8 @@ public class ApiController {
     private CookieServ cookieService;
     @Autowired
     private MovieServ movieService;
+    @Autowired
+    private CardServ cardService;
     @GetMapping("/movies")
     public List<Movie> getMovies() {
         return movieService.getAllMovies();
@@ -115,5 +117,66 @@ public class ApiController {
             responseBody.put("message", "Invalid email or password");
         }
         return responseBody;
+    }
+    @PostMapping("/add-payment-method")
+    @ResponseBody
+    public Map<String, Object> addPaymentMethod(@CookieValue(name = "TOKEN", defaultValue = "none") String token, @RequestBody Map<String, String> paymentInfo) {
+        boolean isLoggedIn = false;
+        RegisteredUser user = null;
+        if (!token.equals("none")) {
+            // verify token with database
+            try {
+                user = cookieService.getUser(token);
+                isLoggedIn = true;
+            } catch (IllegalArgumentException e) {
+                // Invalid token
+            }
+        }
+        if (!isLoggedIn) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", false);
+            response.put("message", "You must be logged in to add a payment method.");
+            return response;
+        }
+        // Validate payment info
+        String cardNumber = paymentInfo.get("cardNumber");
+        String expiryDate = paymentInfo.get("expiryDate");
+        String cvc = paymentInfo.get("cvc");
+        String name = paymentInfo.get("name");
+
+        Map<String, Object> response = new HashMap<>();
+
+        if (cardNumber == null || cardNumber.length() != 16) {
+            response.put("success", false);
+            response.put("message", "Invalid card number.");
+            return response;
+        }
+
+        if (expiryDate == null || expiryDate.isEmpty() || !expiryDate.matches("\\d{2}/\\d{2}")) {
+            response.put("success", false);
+            response.put("message", "Invalid expiry date.");
+            return response;
+        }
+
+        if (cvc == null || cvc.length() != 3) {
+            response.put("success", false);
+            response.put("message", "Invalid CVC.");
+            return response;
+        }
+
+        if (name == null || name.isEmpty()) {
+            response.put("success", false);
+            response.put("message", "Invalid name.");
+            return response;
+        }
+
+        // Simulate saving payment info to the database
+        LocalDate expiryDateLocal = LocalDate.parse("01/"+expiryDate, DateTimeFormatter.ofPattern("dd/MM/yy"));
+        cardService.createCard(new Card(cardNumber, expiryDateLocal, cvc, name, user));
+
+
+        response.put("success", true);
+        response.put("message", "Payment method added successfully.");
+        return response;
     }
 }

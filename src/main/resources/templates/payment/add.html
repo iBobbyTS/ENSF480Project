@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Payment Method</title>
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/payment/add.css">
+    <script src="/js/utils/util.js" defer></script>
+    <script src="/js/payment/add.js" defer></script>
+</head>
+<body>
+<!-- Header -->
+<header class="top-bar">
+    <div class="left-section">
+        <button class="nav-button" onclick="window.location.href='/'">Home</button>
+    </div>
+    <div class="website-name">
+        <h1>AcmePlex</h1>
+    </div>
+</header>
+
+<!-- Main Content -->
+<div class="content">
+    <h2>Add Payment Method</h2>
+
+    <form id="payment-form" class="payment-form">
+        <label for="cardNumber">Card Number:</label>
+        <input type="text" id="cardNumber" name="cardNumber" maxlength="16" placeholder="1234 5678 9012 3456" required>
+
+        <label for="expiryDate">Expire Date (MM/YY):</label>
+        <input type="text" id="expiryDate" name="expiryDate" maxlength="5" placeholder="MM/YY" required>
+
+        <label for="cvc">CVC:</label>
+        <input type="text" id="cvc" name="cvc" maxlength="3" placeholder="123" required>
+
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" placeholder="Cardholder Name" required>
+
+        <button type="button" class="submit-button" onclick="submitPaymentMethod()">Submit</button>
+    </form>
+</div>
+</body>
+</html>

@@ -56,12 +56,11 @@ INSERT INTO RegisteredUser (usrEmail, password) VALUES
 INSERT INTO RegisteredUser (usrEmail, password, admin) VALUES ('admin@admin.com', '0a07822c91525a83b2beb03690418cc2886d3c63', TRUE);
 -- 'firefly26710'
 -- Card Table
-INSERT INTO Card (cardNum, expiry, cvc, usrEmail) VALUES
-    ('1234567812355678', '2025-12-01', 123, 'burnice.white@calydon.com'),
-    ('8765432187654321', '2026-06-01', 456, 'anby.demara@cunning.com'),
-    ('5555555555555555', '2024-07-15', 789, 'grace.howard@belobog.com'),
-    ('4444111122223333', '2027-10-20', 345, 'nicole.demara@cunning.com'),
-    ('3333222211114444', '2028-01-01', 678, 'luciana.montefio@calydon.com');
+INSERT INTO Card (cardNum, expiry, cvc, cardHolder, usrEmail) VALUES
+    ('1234567812355678', '2025-12-01', 123, 'Burnice White', 'burnice.white@calydon.com'),
+    ('5555555555555555', '2024-07-15', 789, 'Grace Goward', 'grace.howard@belobog.com'),
+    ('4444111122223333', '2027-10-20', 345, 'Nicole Demara', 'nicole.demara@cunning.com'),
+    ('3333222211114444', '2028-01-01', 678, 'Luciana de Montefio', 'luciana.montefio@calydon.com');
 
 # -- Ticket Table
 # INSERT INTO Ticket (userId, seatId, isPurchased, ticketPrice) VALUES

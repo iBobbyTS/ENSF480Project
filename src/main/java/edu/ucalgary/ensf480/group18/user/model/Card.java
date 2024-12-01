@@ -13,7 +13,9 @@ public class Card {
     private String cardNum;
 
     private LocalDate expiry;
-    private int cvc;
+    private String cvc;
+
+    private String cardHolder;
 
     @OneToOne
     @JoinColumn(name = "usrEmail")
@@ -21,6 +23,13 @@ public class Card {
     private RegisteredUser user;
 
     public Card(){}
+    public Card(String cardNum, LocalDate expiry, String cvc, String cardHolder, RegisteredUser user) {
+        this.cardNum = cardNum;
+        this.expiry = expiry;
+        this.cvc = cvc;
+        this.cardHolder = cardHolder;
+        this.user = user;
+    }
 
     public String getCardNum() {
         return cardNum;
@@ -34,10 +43,10 @@ public class Card {
     public void setExpiry(LocalDate expiry) {
         this.expiry = expiry;
     }
-    public int getCvc() {
+    public String getCvc() {
         return cvc;
     }
-    public void setCvc(int cvc) {
+    public void setCvc(String cvc) {
         this.cvc = cvc;
     }
 
