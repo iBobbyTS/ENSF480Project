@@ -17,6 +17,8 @@ public class Payment {
 
     private Boolean isPaid;
 
+    private Boolean isRefunded;
+
     public Payment() {
     }
 
@@ -24,6 +26,7 @@ public class Payment {
         this.ticket = ticket;
         this.card = card;
         this.isPaid = true;
+        this.isRefunded = false;
     }
 
     public int getPaymentId() {
@@ -56,5 +59,13 @@ public class Payment {
 
     public void setCard(Card card) {
         this.card = card;
+    }
+
+    public Boolean getRefunded() {
+        return isRefunded;
+    }
+
+    public void setRefunded(Boolean refunded) {
+        isRefunded = refunded;
     }
 }

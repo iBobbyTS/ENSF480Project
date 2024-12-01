@@ -1,5 +1,6 @@
 package edu.ucalgary.ensf480.group18.user.service;
 
+import edu.ucalgary.ensf480.group18.user.model.GiftCard;
 import edu.ucalgary.ensf480.group18.user.model.Payment;
 import edu.ucalgary.ensf480.group18.user.repository.PaymentRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,9 @@ import org.springframework.stereotype.Service;
 public class PaymentServImpl implements PaymentServ {
     @Autowired
     private PaymentRepo paymentRepo;
+
+    @Autowired
+    private GiftCardServ giftCardServ;
 
     @Override
     public Payment createPayment(Payment payment) {
@@ -32,12 +36,12 @@ public class PaymentServImpl implements PaymentServ {
 
     // TODO: Implement refundPayment
     @Override
-    public Payment refundPayment(Payment payment) {
-        if(payment.getPaid()) {
-            payment.setPaid(false);
-            int refundAmount = payment.getTicket().getTicketPrice();
-        }
-        return null;
+    public GiftCard refundPayment(Payment payment) {
+        double refundAmount = payment.getTicket().getTicketPrice();
+        //Subtract admin fee based on User refund strategy
+        refundAmount = payment.getCard().getUser().getRefundStrategy().calculateRefund(refundAmount);
+        //Create a gift card with the refund amount
+        return giftCardServ.createGiftCard(new GiftCard(refundAmount));
     }
 
 

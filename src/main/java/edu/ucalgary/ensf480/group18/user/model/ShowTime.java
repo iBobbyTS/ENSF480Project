@@ -47,6 +47,10 @@ public class ShowTime {
         this.showTimeId = showTimeId;
     }
 
+    public Movie getMovie() {
+        return movie;
+    }
+
     public void setMovie(Movie movie) {
         this.movie = movie;
     }

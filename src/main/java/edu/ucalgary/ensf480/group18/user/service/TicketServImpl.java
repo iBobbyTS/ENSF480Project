@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class TicketServImpl implements TicketServ {
@@ -19,7 +20,7 @@ public class TicketServImpl implements TicketServ {
         }
 
         @Override
-        public Ticket getTicket(Long ticketId) {
+        public Ticket getTicket(UUID ticketId) {
             return ticketRepo.findById(ticketId).orElse(null);
         }
 
@@ -28,11 +29,6 @@ public class TicketServImpl implements TicketServ {
             return ticketRepo.findTicketsByEmail(emailAddress);
         }
 
-        @Override
-        public Ticket emailTicket(Ticket ticket) {
-            //Email the ticket to the user
-            return ticket;
-        }
 
         @Override
         public Ticket updateTicket(Ticket ticket) {

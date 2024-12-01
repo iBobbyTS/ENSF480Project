@@ -77,4 +77,21 @@ public class Seat {
     public void setShowTime(ShowTime showTime) {
         this.showTime = showTime;
     }
+
+    public String getSeatNumber() {
+        return convertRowToLetter(seatRow) + "-" + seatColumn;
+    }
+
+    private String convertRowToLetter(int seatRow) {
+        if (seatRow <= 0) {
+            throw new IllegalArgumentException("Row number must be greater than 0");
+        }
+        StringBuilder letter = new StringBuilder();
+        while (seatRow > 0) {
+            seatRow--; // Adjust for zero-based indexing
+            letter.insert(0, (char) ('A' + (seatRow % 26))); // Map 0-25 to A-Z
+            seatRow /= 26;
+        }
+        return letter.toString();
+    }
 }

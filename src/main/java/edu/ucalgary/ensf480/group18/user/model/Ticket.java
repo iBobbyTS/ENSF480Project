@@ -2,18 +2,20 @@ package edu.ucalgary.ensf480.group18.user.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 public class Ticket {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long ticketId;
+    @UuidGenerator
+    private UUID ticketId;
 
     @ManyToOne
-    @JoinColumn(name = "usrEmail")
-    private RegisteredUser user;
+    @JoinColumn(name = "userId")
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "seatId")
@@ -27,33 +29,34 @@ public class Ticket {
 
     }
 
-    public Ticket(RegisteredUser user, Seat seat) {
+    public Ticket(User user, Seat seat) {
         this.user = user;
         this.seat = seat;
         this.ticketPrice = seat.getSeatPrice();
         this.isPurchased = false;
     }
 
-    public Ticket(RegisteredUser user, Seat seat, Boolean isPurchased) {
+    public Ticket(User user, Seat seat, Boolean isPurchased) {
         this.user = user;
         this.seat = seat;
         this.ticketPrice = seat.getSeatPrice();
         this.isPurchased = isPurchased;
     }
 
-    public Long getTicketId() {
+    public UUID getTicketId() {
         return ticketId;
     }
 
-    public void setTicketId(Long ticketId) {
+    public void setTicketId(UUID ticketId) {
         this.ticketId = ticketId;
     }
 
-    public RegisteredUser getUser() {
+
+    public User getUser() {
         return user;
     }
 
-    public void setUser(RegisteredUser user) {
+    public void setUser(User user) {
         this.user = user;
     }
 

@@ -1,5 +1,6 @@
 package edu.ucalgary.ensf480.group18.user.service;
 
+import edu.ucalgary.ensf480.group18.user.model.GiftCard;
 import edu.ucalgary.ensf480.group18.user.model.Payment;
 
 public interface PaymentServ {
@@ -8,5 +9,5 @@ public interface PaymentServ {
     void deletePayment(Payment payment);
     Payment updatePayment(Payment payment);
 
-    Payment refundPayment(Payment payment);
+    GiftCard refundPayment(Payment payment);
 }

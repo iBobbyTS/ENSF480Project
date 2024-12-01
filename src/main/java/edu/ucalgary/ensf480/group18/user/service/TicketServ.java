@@ -3,12 +3,12 @@ package edu.ucalgary.ensf480.group18.user.service;
 import edu.ucalgary.ensf480.group18.user.model.Ticket;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface TicketServ {
     Ticket createTicket(Ticket ticket);
-    Ticket getTicket(Long ticketId);
+    Ticket getTicket(UUID ticketId);
     List<Ticket> getTicketByEmailAddress(String emailAddress);
-    Ticket emailTicket(Ticket ticket);
 
     Ticket updateTicket(Ticket ticket);
     void deleteTicket(Ticket ticket);
