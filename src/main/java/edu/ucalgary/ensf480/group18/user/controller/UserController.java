@@ -17,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
+    /*
 
     @Autowired
     private UserServ userService;
@@ -68,6 +69,6 @@ public class UserController {
 //        cardService.updateCard(card);
 //        return newUser;
 //    }
-
+*/
 
 }

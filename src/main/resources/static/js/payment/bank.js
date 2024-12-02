@@ -22,14 +22,20 @@ function redirectTo(success) {
     // Get the current URL
     const urlParams = new URLSearchParams(window.location.search);
     // Get a specific parameter value
-     let redirect = urlParams.get('redirect');
+    let redirect = urlParams.get('redirect');
+
     redirect = decodeURIComponent(redirect);
-    // if redirect includes ? then add & else add ?
-    if (redirect.includes('?')) {
-        redirect += "&success=" + success;
-    } else {
-        redirect += "?success=" + success;
-    }
-    // redirect
+
+    // Append all URL parameters to the redirect URL
+    urlParams.forEach((value, key) => {
+        if (key !== 'redirect') {
+            redirect += (redirect.includes('?') ? '&' : '?') + key + '=' + encodeURIComponent(value);
+        }
+    });
+
+    // Add the success parameter
+    redirect += (redirect.includes('?') ? '&' : '?') + 'success=' + success;
+
+    // Redirect
     window.location.href = redirect;
 }

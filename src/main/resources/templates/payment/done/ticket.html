@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket Payment Result</title>
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/payment/done/ticket.css">
+    <script>
+        function parseSeats(seats) {
+            const seatMap = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
+            const seatArray = seats.split(',')
+            let rtn = "";
+            for (let i of seatArray) {
+                console.log(i);
+                let [row, col] = i.split('-');
+                row = parseInt(row);
+                rtn += seatMap[row] + col + ", ";
+            }
+            rtn = rtn.slice(0, -2);
+            return rtn;
+        }
+        function downloadStringAsFile() {
+
+            // Get the current URL
+            const urlParams = new URLSearchParams(window.location.search);
+            // Get a specific parameter value
+            const seats = urlParams.get('seats');
+            console.log(seats, parseSeats(seats))
+            const content = `Movie: [[${movieTitle}]]\nTime: [[${showtime}]]\nSeats: ${parseSeats(seats)}`;
+            // Create a Blob from the string content
+            const blob = new Blob([content], { type: 'text/plain' });
+
+            // Create a link element
+            const link = document.createElement('a');
+
+            // Set the download attribute with the filename
+            link.download = "ticket.txt";
+
+            // Create a URL for the Blob and set it as the href attribute
+            link.href = window.URL.createObjectURL(blob);
+
+            // Append the link to the body (required for Firefox)
+            document.body.appendChild(link);
+
+            // Programmatically click the link to trigger the download
+            link.click();
+
+            // Remove the link from the document
+            document.body.removeChild(link);
+        }
+    </script>
+</head>
+<body>
+<!-- Header -->
+<header class="top-bar">
+    <div class="left-section">
+        <button class="nav-button" onclick="window.location.href='/'">Home</button>
+    </div>
+    <div class="website-name">
+        <h1>AcmePlex</h1>
+    </div>
+</header>
+
+<!-- Main Content -->
+<div class="content">
+    <!-- Success Message -->
+    <h2 th:if="${success}" th:text="'Thank you for your purchase!'"></h2>
+    <p th:if="${success}" th:text="'Movie: ' + ${movieTitle}"></p>
+    <p th:if="${success}" th:text="'Time: ' + ${showtime}"></p>
+    <ul th:if="${success}">
+        <li th:each="seat : ${seats}" th:text="'Seat: ' + ${seat}"></li>
+    </ul>
+    <a th:if="${success}" th:href="@{/download/ticket}" download>
+        <button class="action-button" onclick="downloadStringAsFile();">Download Ticket</button>
+    </a>
+
+    <!-- Failure Message -->
+    <h2 th:unless="${success}" th:text="'Sorry, the payment didn\\'t succeed.'"></h2>
+    <button class="action-button" th:unless="${success}" th:onclick="'window.location.href=/movie/buy-ticket?movieId=' + ${movieId}">
+        Try Again
+    </button>
+</div>
+</body>
+</html>

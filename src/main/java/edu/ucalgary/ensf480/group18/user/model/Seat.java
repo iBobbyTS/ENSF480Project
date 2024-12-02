@@ -20,14 +20,17 @@ public class Seat {
     @JsonBackReference
     private ShowTime showTime;
 
-    public Seat() {
-    }
 
-    public Seat(int seatRow, int seatColumn, int seatPrice, Boolean isReserved) {
+    public Seat(int seatRow, int seatColumn, int seatPrice, Boolean isReserved, ShowTime showTime) {
         this.seatRow = seatRow;
         this.seatColumn = seatColumn;
         this.seatPrice = seatPrice;
         this.isReserved = isReserved;
+        this.showTime = showTime;
+    }
+
+    public Seat() {
+
     }
 
     public Long getSeatID() {

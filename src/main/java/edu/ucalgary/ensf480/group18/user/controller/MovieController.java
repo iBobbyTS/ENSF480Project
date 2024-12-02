@@ -13,6 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/movie")
 public class MovieController {
+    /*
 
     @Autowired
     private MovieServ movieService;
@@ -45,34 +46,33 @@ public class MovieController {
         return showTimeService.getShowTime(showTimeId);
     }
 
-    */
     @GetMapping("/search")
     public List<Movie> searchMovies(@RequestParam String title){
         return movieService.searchMovies(title.toLowerCase());
     }
 
-    @PostMapping("/{showTimeId}/createTicket")
-    public Ticket createTicket(@RequestParam Long seatId, @RequestParam String userEmail){
-        Seat seat = seatService.getSeat(seatId);
-        User user = userService.getUserByEmailAddress(userEmail);
-//        if(user == null){
-//            user = userService.createUser(new User(userEmail));
+//    @PostMapping("/{showTimeId}/createTicket")
+//    public Ticket createTicket(@RequestParam Long seatId, @RequestParam String userEmail){
+//        Seat seat = seatService.getSeat(seatId);
+//        User user = userService.getUserByEmailAddress(userEmail);
+////        if(user == null){
+////            user = userService.createUser(new User(userEmail));
+////        }
+//        if(user == null || seat == null){
+//            return null;
 //        }
-        if(user == null || seat == null){
-            return null;
-        }
-        //Check if the seat is available
-        if(!seat.getIsReserved()){
-            Ticket ticket = new Ticket(user, seat);
-            //Create a ticket
-            ticketService.createTicket(ticket);
-            //Set the seat to unavailable
-            seat.setIsReserved(true);
-            seatService.updateSeat(seat);
-            return ticket;
-        }
-        return null;
-    }
+//        //Check if the seat is available
+//        if(!seat.getIsReserved()){
+//            Ticket ticket = new Ticket(user, seat);
+//            //Create a ticket
+//            ticketService.createTicket(ticket);
+//            //Set the seat to unavailable
+//            seat.setIsReserved(true);
+//            seatService.updateSeat(seat);
+//            return ticket;
+//        }
+//        return null;
+//    }
 
 //    @PostMapping("/create")
 //    public Movie createMovie(@RequestParam String title, @RequestParam String genre, @RequestParam String releaseDate) {
@@ -99,7 +99,7 @@ public class MovieController {
 //
 //        return savedMovie;
 //    }
-
+*/
 
 
 }

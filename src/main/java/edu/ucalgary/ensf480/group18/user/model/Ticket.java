@@ -13,9 +13,7 @@ public class Ticket {
     @UuidGenerator
     private UUID ticketId;
 
-    @ManyToOne
-    @JoinColumn(name = "userId")
-    private User user;
+    private String usrEmail;
 
     @ManyToOne
     @JoinColumn(name = "seatId")
@@ -29,15 +27,15 @@ public class Ticket {
 
     }
 
-    public Ticket(User user, Seat seat) {
-        this.user = user;
+    public Ticket(String usrEmail, Seat seat) {
+        this.usrEmail = usrEmail;
         this.seat = seat;
         this.ticketPrice = seat.getSeatPrice();
         this.isPurchased = false;
     }
 
-    public Ticket(User user, Seat seat, Boolean isPurchased) {
-        this.user = user;
+    public Ticket(String usrEmail, Seat seat, Boolean isPurchased) {
+        this.usrEmail = usrEmail;
         this.seat = seat;
         this.ticketPrice = seat.getSeatPrice();
         this.isPurchased = isPurchased;
@@ -52,12 +50,12 @@ public class Ticket {
     }
 
 
-    public User getUser() {
-        return user;
+    public String getUserEmail() {
+        return usrEmail;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(String usrEmail) {
+        this.usrEmail = usrEmail;
     }
 
     public Seat getSeat() {

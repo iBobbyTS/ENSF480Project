@@ -1,20 +1,24 @@
 package edu.ucalgary.ensf480.group18.user.controller;
 
+import aj.org.objectweb.asm.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.ucalgary.ensf480.group18.user.model.RegisteredUser;
+import edu.ucalgary.ensf480.group18.user.model.Seat;
 import edu.ucalgary.ensf480.group18.user.model.ShowTime;
-import edu.ucalgary.ensf480.group18.user.service.CookieServ;
-import edu.ucalgary.ensf480.group18.user.service.MovieServ;
-import edu.ucalgary.ensf480.group18.user.service.RegisteredUserServ;
-import edu.ucalgary.ensf480.group18.user.service.ShowTimeServ;
+import edu.ucalgary.ensf480.group18.user.model.Ticket;
+import edu.ucalgary.ensf480.group18.user.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Map;
 
 @Controller
 public class WebpageController {
@@ -26,6 +30,10 @@ public class WebpageController {
     private MovieServ movieService;
     @Autowired
     private ShowTimeServ showTimeService;
+    @Autowired
+    private TicketServ ticketService;
+    @Autowired
+    private SeatServ seatService;
     @GetMapping("/")
     public String home(@CookieValue(name = "TOKEN", defaultValue = "none") String token, Model model) {
         // Add data to the model to display in the view
@@ -247,5 +255,69 @@ public class WebpageController {
 
         return "payment/done/vip"; // Shared Thymeleaf template
     }
+
+    @GetMapping("/payment/done/ticket")
+    public String ticketPaymentResult(
+            @CookieValue(name = "TOKEN", defaultValue = "none") String token,
+            @RequestParam(name = "success", defaultValue = "-1") String successCode,
+            @RequestParam(name = "showtimeId") int showtimeId,
+            @RequestParam(name = "seats") String seatsJson,
+            Model model
+    ) {
+        System.out.println("Ticket payment result");
+        boolean isLoggedIn = false;
+        RegisteredUser user = null;
+
+        if (!token.equals("none")) {
+            // Verify token with the database
+            try {
+                user = cookieService.getUser(token);
+                isLoggedIn = true;
+            } catch (IllegalArgumentException e) {
+                // Invalid token
+            }
+        }
+
+        if (!isLoggedIn) {
+            return "redirect:/sign-in"; // Redirect to sign-in if not logged in
+        }
+
+        int success = Integer.parseInt(successCode);
+
+        if (success == 0) {
+            seatsJson = URLDecoder.decode(seatsJson, StandardCharsets.UTF_8);
+            List<List<Integer>> seatsArray = new ArrayList<>();
+            for (String seat : seatsJson.split(",")) {
+                String[] seatParts = seat.split("-");
+                List<Integer> seatCoords = new ArrayList<>();
+                seatCoords.add(Integer.parseInt(seatParts[0]));
+                seatCoords.add(Integer.parseInt(seatParts[1]));
+                seatsArray.add(seatCoords);
+            }
+            // Store tickets in the database
+
+            ShowTime showtime = showTimeService.getShowTimeById(showtimeId);
+            System.out.println("showtimessss");
+            System.out.println(showtime);
+            for (List<Integer> seat : seatsArray) {
+                Seat newSeat = new Seat(seat.get(0), seat.get(1), 25, true, showtime);
+                System.out.println(newSeat.getShowTime());
+                seatService.createSeat(newSeat); // Save the Seat entity first
+                ticketService.createTicket(new Ticket(user.getUsrEmail(), newSeat, true));
+            }
+
+            // Prepare success page data
+            model.addAttribute("success", true);
+            model.addAttribute("movieTitle", showtime.getMovie().getTitle());
+            model.addAttribute("showtime", showtime.getShowTime().toString());
+
+        } else {
+            // Redirect to the buy-ticket page for this movie
+            return "redirect:/movie/buy-ticket?movieId=" + showTimeService.getShowTimeById(showtimeId).getMovie().getMovieId();
+        }
+
+        return "payment/done/ticket";
+    }
+
 }
 

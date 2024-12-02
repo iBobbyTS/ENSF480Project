@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface TicketServ {
-    Ticket createTicket(Ticket ticket);
+    void createTicket(Ticket ticket);
     Ticket getTicket(UUID ticketId);
     List<Ticket> getTicketByEmailAddress(String emailAddress);
 

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class EmailNotificationServImpl implements EmailNotificationServ{
-
+/*
     @Autowired
     private JavaMailSender mailSender;
 
@@ -20,16 +20,16 @@ public class EmailNotificationServImpl implements EmailNotificationServ{
     }
 
     @Override
-    public void emailTicket(Ticket ticket) {
-        // Send the ticket via email
-        if (ticket != null && ticket.getUser().getUsrEmail() != null) {
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setTo(ticket.getUser().getUsrEmail());
-            message.setSubject("Your Ticket Details");
-            message.setText(buildTicketEmailBody(ticket));
-            mailSender.send(message);
-        }
-    }
+//    public void emailTicket(Ticket ticket) {
+//        // Send the ticket via email
+//        if (ticket != null && ticket.getUser().getUsrEmail() != null) {
+//            SimpleMailMessage message = new SimpleMailMessage();
+//            message.setTo(ticket.getUser().getUsrEmail());
+//            message.setSubject("Your Ticket Details");
+//            message.setText(buildTicketEmailBody(ticket));
+//            mailSender.send(message);
+//        }
+//    }
 
     public void emailGiftCard(String email, GiftCard giftCard) {
         // Send the gift card via email
@@ -59,4 +59,6 @@ public class EmailNotificationServImpl implements EmailNotificationServ{
                 "Expiry Date: " + giftCard.getExpiryDate() + "\n" +
                 "Enjoy your gift card!";
     }
+
+ */
 }

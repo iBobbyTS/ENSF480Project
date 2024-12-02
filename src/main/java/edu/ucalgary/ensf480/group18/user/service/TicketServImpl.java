@@ -15,8 +15,8 @@ public class TicketServImpl implements TicketServ {
         private TicketRepo ticketRepo;
 
         @Override
-        public Ticket createTicket(Ticket ticket) {
-            return ticketRepo.save(ticket);
+        public void createTicket(Ticket ticket) {
+            ticketRepo.save(ticket);
         }
 
         @Override
@@ -24,10 +24,15 @@ public class TicketServImpl implements TicketServ {
             return ticketRepo.findById(ticketId).orElse(null);
         }
 
-        @Override
-        public List<Ticket> getTicketByEmailAddress(String emailAddress) {
-            return ticketRepo.findTicketsByEmail(emailAddress);
-        }
+    @Override
+    public List<Ticket> getTicketByEmailAddress(String emailAddress) {
+        return null;
+    }
+
+//        @Override
+//        public List<Ticket> getTicketByEmailAddress(String emailAddress) {
+//            return ticketRepo.findTicketsByEmail(emailAddress);
+//        }
 
 
         @Override

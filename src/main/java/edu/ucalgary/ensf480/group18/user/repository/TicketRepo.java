@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface TicketRepo extends JpaRepository<Ticket, UUID> {
-    @Query("SELECT t FROM Ticket t WHERE t.user.usrEmail = ?1")
-    List<Ticket> findTicketsByEmail(String emailAddress);
+//    @Query("SELECT t FROM Ticket t WHERE t.user.usrEmail = ?1")
+//    List<Ticket> findTicketsByEmail(String emailAddress);
+
 }

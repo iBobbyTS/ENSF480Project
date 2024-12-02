@@ -14,6 +14,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/payment")
 public class PaymentController {
+    /*
 
     @Autowired
     private PaymentServ paymentService;
@@ -90,5 +91,5 @@ public class PaymentController {
     public String handleException(IllegalArgumentException e){
         return e.getMessage();
     }
-
+*/
 }

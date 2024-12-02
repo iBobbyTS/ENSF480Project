@@ -111,19 +111,15 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        const redirectParams = {
-            showtimeId: selectedShowtimeId,
-            seats: selectedSeats.map((seat) => {
-                const [row, column] = seat.match(/\d+|[A-Z]+/g);
-                return {
-                    seatRow: row.charCodeAt(0) - 65, // Convert row letter to number
-                    seatColumn: parseInt(column, 10) - 1, // Adjust column index
-                };
-            }),
-        };
-
-        const encodedParams = encodeURIComponent(JSON.stringify(redirectParams));
-        window.location.href = `/payment/bank?redirect=/payment/done/ticket?${encodedParams}`;
+        let seat = "";
+        for (let i = 0; i < selectedSeats.length; i++) {
+            let s = selectedSeats[i];
+            const [row, column] = s.match(/\d+|[A-Z]+/g);
+            seat += row.charCodeAt(0) - 65 + "-" + (parseInt(column, 10) - 1) + ",";
+        }
+        seat = seat.slice(0, -1);
+        seat = encodeURIComponent(seat);
+        window.location.href = `/payment/bank?redirect=/payment/done/ticket&showtimeId=${selectedShowtimeId}&seats=${seat}`;
     };
 
     // Fetch seats from the backend and render seat map

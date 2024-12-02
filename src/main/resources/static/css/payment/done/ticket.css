@@ -1,0 +1,54 @@
+/* General Content Styling */
+.content {
+    text-align: center;
+    padding: 20px;
+    max-width: 600px;
+    margin: 50px auto;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading Styling */
+.content h2 {
+    margin-bottom: 20px;
+    font-size: 1.8em;
+    color: #333;
+}
+
+/* Paragraph Styling */
+.content p {
+    margin-bottom: 10px;
+    font-size: 1.2em;
+    color: #555;
+}
+
+/* Seat List Styling */
+.content ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+.content ul li {
+    font-size: 1.1em;
+    color: #555;
+    margin: 5px 0;
+}
+
+/* Action Button */
+.action-button {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.action-button:hover {
+    background-color: #0056b3;
+}
