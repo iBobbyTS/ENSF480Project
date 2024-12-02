@@ -226,3 +226,19 @@ body {
 .vip-message {
     color: #eeeeee;
 }
+
+/* Cancel Ticket button styling */
+.cancel-ticket-button {
+    margin-left: 10px;
+    padding: 8px 16px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.cancel-ticket-button:hover {
+    background-color: #0056b3;
+}

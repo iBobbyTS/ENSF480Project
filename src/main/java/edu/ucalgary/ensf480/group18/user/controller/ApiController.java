@@ -47,6 +47,8 @@ public class ApiController {
     private ShowTimeServ showTimeService;
     @Autowired
     private TicketServ ticketService;
+    @Autowired
+    private GiftCardServ giftCardService;
     @GetMapping("/movies")
     public List<Movie> getMovies() {
         return movieService.getAllMovies();
@@ -215,4 +217,54 @@ public class ApiController {
             return ticketInfo;
         }).collect(Collectors.toList());
     }
+
+    @PostMapping("/cancel-ticket")
+    public Map<String, Object> cancelTicket(
+            @CookieValue(name = "TOKEN", defaultValue = "none") String token,
+            @RequestBody Map<String, String> request
+    ) {
+        Map<String, Object> response = new HashMap<>();
+        boolean isLoggedIn = false;
+        RegisteredUser user = null;
+        double refundAmount = 21.25;
+        if (!token.equals("none")) {
+            // verify token with database
+            try {
+                user = cookieService.getUser(token);
+                isLoggedIn = true;
+            } catch (IllegalArgumentException e) {
+                // Invalid token
+            }
+        }
+        if (isLoggedIn) {
+            if (user.isVIP()) {
+                refundAmount  = 25;
+            }
+        }
+
+        String ticketId = request.get("ticketId");
+        Ticket ticket = ticketService.getTicket(UUID.fromString(ticketId));
+        System.out.println(ticket);
+        if (ticket == null) {
+            response.put("success", false);
+            response.put("message", "Ticket not found.");
+            return response;
+        }
+        try {
+            ticketService.deleteTicket(ticket);
+            response.put("success", true);
+            GiftCard giftCard = new GiftCard(refundAmount);
+            System.out.println(giftCard);
+            giftCardService.createGiftCard(giftCard);
+            System.out.println(giftCard.getGiftCardId());
+            response.put("message", "Ticket cancelled successfully. Refund amount: $" + giftCard.getBalance());
+            response.put("giftCard", giftCard.getGiftCardId());
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("message", e.getMessage());
+        }
+
+        return response;
+    }
+
 }

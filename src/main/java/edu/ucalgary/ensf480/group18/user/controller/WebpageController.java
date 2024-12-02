@@ -343,5 +343,9 @@ public class WebpageController {
         return "my-tickets";
     }
 
+    @GetMapping("/cancel-ticket")
+    public String cancelTicket() {
+        return "cancel-ticket";
+    }
 }
 
