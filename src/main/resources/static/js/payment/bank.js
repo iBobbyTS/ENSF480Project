@@ -17,3 +17,19 @@ document.addEventListener("DOMContentLoaded", () => {
         output.style.color = "orange";
     });
 });
+
+function redirectTo(success) {
+    // Get the current URL
+    const urlParams = new URLSearchParams(window.location.search);
+    // Get a specific parameter value
+     let redirect = urlParams.get('redirect');
+    redirect = decodeURIComponent(redirect);
+    // if redirect includes ? then add & else add ?
+    if (redirect.includes('?')) {
+        redirect += "&success=" + success;
+    } else {
+        redirect += "?success=" + success;
+    }
+    // redirect
+    window.location.href = redirect;
+}

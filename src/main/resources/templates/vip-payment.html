@@ -29,15 +29,7 @@
         <p><strong>Total:</strong> <span th:text="${total}"></span></p>
     </div>
 
-    <button class="pay-button" onclick="processPayment()">Pay Now</button>
+    <a href="/payment/bank?redirect=/payment/done/vip"><button class="pay-button">Pay Now</button></a>
 </div>
-
-<!-- JavaScript -->
-<script>
-    function processPayment() {
-        // Add your payment logic or API call here
-        window.location.href = '/vip-success'; // Redirect to success page
-    }
-</script>
 </body>
 </html>

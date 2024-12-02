@@ -28,4 +28,8 @@ public class RegisteredUserServImpl implements RegisteredUserServ {
         RegisteredUser user = registeredUserRepo.findByUsrEmail(email);
         return user != null && user.getPassword().equals(password);
     }
+
+    public void updateUser(RegisteredUser user) {
+        registeredUserRepo.save(user);
+    }
 }

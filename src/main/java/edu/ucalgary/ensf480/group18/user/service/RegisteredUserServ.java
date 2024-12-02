@@ -6,7 +6,7 @@ public interface RegisteredUserServ {
     void createUser(RegisteredUser user);
     RegisteredUser getUserByEmailAddress(String emailAddress);
     boolean emailExists(String email);
-
     boolean verifyUser(String email, String password);
+    void updateUser(RegisteredUser user);
 }
 

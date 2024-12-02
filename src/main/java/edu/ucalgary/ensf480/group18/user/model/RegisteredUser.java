@@ -74,6 +74,10 @@ public class RegisteredUser {
         this.VIPLastRenewal = LocalDate.now();
     }
 
+    public void renewVIP(LocalDate date) {
+        this.VIPLastRenewal = date;
+    }
+
     public float getCredit() {
         return credit;
     }
