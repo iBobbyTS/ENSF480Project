@@ -65,6 +65,7 @@ p {
     font-size: 0.8em;
     cursor: pointer;
     border-radius: 4px;
+    margin: 5px;
 }
 
 .seat.empty {

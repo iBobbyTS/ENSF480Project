@@ -45,4 +45,8 @@ public class ShowTimeServImpl implements ShowTimeServ {
 
         return showTimes;
     }
+
+    public ShowTime getShowTimeById(int showTimeId) {
+        return showTimeRepo.findById(showTimeId).orElse(null);
+    }
 }

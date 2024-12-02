@@ -3,17 +3,15 @@ package edu.ucalgary.ensf480.group18.user.controller;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
-import edu.ucalgary.ensf480.group18.user.model.Card;
-import edu.ucalgary.ensf480.group18.user.model.Movie;
+import edu.ucalgary.ensf480.group18.user.model.*;
 import edu.ucalgary.ensf480.group18.user.service.*;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import edu.ucalgary.ensf480.group18.user.model.RegisteredUser;
 
 
 class UserAccount {
@@ -41,6 +39,10 @@ public class ApiController {
     private MovieServ movieService;
     @Autowired
     private CardServ cardService;
+    @Autowired
+    private SeatServ seatService;
+    @Autowired
+    private ShowTimeServ showTimeService;
     @GetMapping("/movies")
     public List<Movie> getMovies() {
         return movieService.getAllMovies();
@@ -178,5 +180,16 @@ public class ApiController {
         response.put("success", true);
         response.put("message", "Payment method added successfully.");
         return response;
+    }
+    @GetMapping("/seats")
+    public List<Seat> getSeats(@RequestParam("showtimeId") int showtimeId) {
+        // Fetch seat data based on the showtime ID
+        ShowTime showtime = showTimeService.getShowTimeById(showtimeId);
+        return seatService.getAllSeats(showtime);
+    }
+
+    @GetMapping("/showtimes")
+    public List<ShowTime> getShowTimes(@RequestParam("movieId") int movieId) {
+        return showTimeService.getShowTimesByMovieId(movieId);
     }
 }

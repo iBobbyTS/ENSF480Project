@@ -11,4 +11,5 @@ public interface ShowTimeServ {
     void createShowTime(ShowTime showTime);
     List<ShowTime> getShowTimesByMovieId(int showTimeId);
     List<ShowTime> generateShowTimes(Movie movie, Theater theater);
+    ShowTime getShowTimeById(int showTimeId);
 }

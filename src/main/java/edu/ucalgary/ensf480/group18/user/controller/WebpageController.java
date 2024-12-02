@@ -1,14 +1,19 @@
 package edu.ucalgary.ensf480.group18.user.controller;
 
 import edu.ucalgary.ensf480.group18.user.model.RegisteredUser;
+import edu.ucalgary.ensf480.group18.user.model.ShowTime;
 import edu.ucalgary.ensf480.group18.user.service.CookieServ;
+import edu.ucalgary.ensf480.group18.user.service.MovieServ;
 import edu.ucalgary.ensf480.group18.user.service.RegisteredUserServ;
+import edu.ucalgary.ensf480.group18.user.service.ShowTimeServ;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 
 @Controller
@@ -17,6 +22,10 @@ public class WebpageController {
     private CookieServ cookieService;
     @Autowired
     private RegisteredUserServ registeredUserService;
+    @Autowired
+    private MovieServ movieService;
+    @Autowired
+    private ShowTimeServ showTimeService;
     @GetMapping("/")
     public String home(@CookieValue(name = "TOKEN", defaultValue = "none") String token, Model model) {
         // Add data to the model to display in the view
@@ -85,11 +94,34 @@ public class WebpageController {
     }
 
     @GetMapping("/payment/bank")
-    public String bankPayment(@CookieValue(name = "TOKEN", defaultValue = "none") String userToken) {
+    public String bankPayment(@CookieValue(name = "TOKEN", defaultValue = "none") String token) {
         return "payment/bank";
     }
     @GetMapping("/movie/buy-ticket")
-    public String buyTicket(@CookieValue(name = "USER_TOKEN", defaultValue = "none") String userToken) {
+    public String buyTicket(@CookieValue(name = "USER_TOKEN", defaultValue = "none") String token, @RequestParam("movieId") int movieId, Model model) {
+        // Simulate fetching current logged-in user
+        boolean isLoggedIn = false;
+        RegisteredUser user = null;
+        if (!token.equals("none")) {
+            // verify token with database
+            try {
+                user = cookieService.getUser(token);
+                isLoggedIn = true;
+            } catch (IllegalArgumentException e) {
+                // Invalid token
+            }
+        }
+        // Fetch movie details
+        var movie = movieService.getMovie(movieId);
+        if (movie == null) {
+            return "redirect:/"; // Redirect to home if movie doesn't exist
+        }
+
+        // Fetch available showtimes for the movie
+        List<ShowTime> showTimes = showTimeService.getShowTimesByMovieId(movieId);
+
+        model.addAttribute("movieName", movie.getTitle());
+        model.addAttribute("description", movie.getDescription());
         return "movie/buy-ticket";
     }
 

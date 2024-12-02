@@ -19,15 +19,15 @@ Visit [localhost:8080](http://localhost:8080) in a local browser
 -- admin
   -- add showtime
 - user
-  - vip
-  - see showtimes
+  -- vip
+  -- see showtimes
   - select seat with seat map
   - buy ticket (get email)
   - buy ticket with coupon
   - cancel ticket (get coupon with email)
 - registered user
-  - update payment method
-  - pay anual fee
+  -- update payment method
+  -- pay anual fee
   - see ticket history
   - cancel ticket (get credit in account)
   - buy ticket with credit
