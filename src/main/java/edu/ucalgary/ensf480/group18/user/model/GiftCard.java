@@ -42,6 +42,9 @@ public class GiftCard {
         this.balance = balance;
     }
 
+    public void reduceBalance(Double amount) {
+        this.balance -= amount;
+    }
     public LocalDate getExpiryDate() {
         return expiryDate;
     }

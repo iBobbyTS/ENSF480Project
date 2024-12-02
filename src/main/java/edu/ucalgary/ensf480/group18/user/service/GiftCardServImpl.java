@@ -22,4 +22,14 @@ public class GiftCardServImpl implements GiftCardServ {
     public GiftCard getGiftCard(UUID giftCardId) {
         return giftCardRepo.findById(giftCardId).orElse(null);
     }
+
+    @Override
+    public void deleteGiftCard(GiftCard giftCard) {
+        giftCardRepo.delete(giftCard);
+    }
+
+    @Override
+    public void updateGiftCard(GiftCard giftCard) {
+        giftCardRepo.save(giftCard);
+    }
 }

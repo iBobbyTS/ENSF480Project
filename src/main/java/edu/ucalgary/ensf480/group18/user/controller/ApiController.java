@@ -266,5 +266,30 @@ public class ApiController {
 
         return response;
     }
-
+    @GetMapping("/giftcard")
+    public ResponseEntity<Map<String, Object>> applyGiftCard(
+            @RequestParam("giftCardId") String giftCardId,
+            @RequestParam("amount") double amountToPay) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            GiftCard giftCard = giftCardService.getGiftCard(UUID.fromString(giftCardId));
+            if (giftCard.getBalance() >= amountToPay) {
+                giftCard.reduceBalance(amountToPay);
+                giftCardService.updateGiftCard(giftCard);
+                response.put("success", true);
+                response.put("balanceApplied", amountToPay);
+            } else {
+                double remainingAmount = amountToPay - giftCard.getBalance();
+                giftCard.reduceBalance(giftCard.getBalance());
+                giftCardService.updateGiftCard(giftCard);
+                response.put("success", true);
+                response.put("balanceApplied", giftCard.getBalance());
+                response.put("remainingAmount", remainingAmount);
+            }
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("message", "Gift Card not found or invalid.");
+        }
+        return ResponseEntity.ok(response);
+    }
 }

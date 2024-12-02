@@ -7,9 +7,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const loadSeatsButton = document.getElementById("load-seats");
     const payButton = document.getElementById("pay-button");
     const dateTimeDropdown = document.getElementById("date-time");
+    const giftCardInput = document.getElementById("gift-card-input");
+    const applyGiftCardButton = document.getElementById("apply-gift-card");
+    const remainingAmountText = document.getElementById("remaining-amount");
 
     let selectedSeats = [];
-    const ticketPrice = 25;
+    const ticketPrice = 25; // Price per ticket
+    let totalPrice = 0; // Total price of selected seats
 
     // A mapping of showtime strings to their corresponding IDs
     let showtimeMap = {};
@@ -26,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Function to render seat map
+    // Function to render the seat map
     function renderSeatMap(seats) {
         seatMapContainer.innerHTML = "";
         const totalRows = 10;
@@ -99,10 +103,37 @@ document.addEventListener("DOMContentLoaded", () => {
             summarySeats.appendChild(seatItem);
         });
 
-        total.textContent = `Total: $${selectedSeats.length * ticketPrice}`;
+        totalPrice = selectedSeats.length * ticketPrice;
+        total.textContent = `Total: $${totalPrice}`;
+        remainingAmountText.textContent = ""; // Clear remaining amount
     }
 
-    // Redirect to payment page
+    // Handle applying a gift card
+    applyGiftCardButton.onclick = () => {
+        applyGiftCardButton.disabled = true;
+        const giftCardId = giftCardInput.value.trim();
+        if (!giftCardId) {
+            alert("Please enter a valid Gift Card ID.");
+            return;
+        }
+
+        get(`/api/giftcard`, (httpRequest) => {
+            const response = JSON.parse(httpRequest.responseText);
+            if (response.success) {
+                const balanceApplied = response.balanceApplied;
+                totalPrice -= balanceApplied;
+                if (totalPrice <= 0) {
+                    totalPrice = 0; // Prevent negative price
+                }
+                total.textContent = `Total: $${totalPrice}`;
+                remainingAmountText.textContent = `Remaining amount to pay: $${response.remainingAmount}`;
+            } else {
+                alert("Gift Card application failed: " + response.message);
+            }
+        }, { giftCardId, amount: totalPrice });
+    };
+
+    // Handle Pay button click
     payButton.onclick = () => {
         const selectedShowtimeId = dateTimeDropdown.value;
 

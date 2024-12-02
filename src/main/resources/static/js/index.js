@@ -1,16 +1,16 @@
 // Declare `newDetailsBlock` as a global variable
 let newDetailsBlock = null;
-
 document.addEventListener("DOMContentLoaded", () => {
     const movieGrid = document.getElementById("movie-grid");
-    const detailsBlockTemplate = document.getElementById("details-block");
+    const detailsBlockTemplate = document.getElementById("details-block"); // Correctly define the variable here
+    const searchInput = document.querySelector(".search-bar input");
+    let movies = []; // Store movies fetched from the API
 
-    // Fetch movies from API
-    get('/api/movies', (httpRequest) => {
-        const movies = JSON.parse(httpRequest.responseText);
-        console.log(movies);
-        const movieElements = []; // Store movie elements
-        movies.forEach((movie, index) => {
+    // Function to render movies
+    function renderMovies(filteredMovies) {
+        movieGrid.innerHTML = ""; // Clear the movie grid
+
+        filteredMovies.forEach((movie, index) => {
             // Create movie element
             const movieElement = document.createElement("div");
             movieElement.classList.add("movie");
@@ -40,7 +40,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Append movie to grid
             movieGrid.appendChild(movieElement);
-            movieElements.push(movieElement);
 
             // Add click event for details
             movieElement.addEventListener("click", () => {
@@ -50,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     newDetailsBlock = null;
                 }
 
-                // Update details block content
+                // Clone the details block template
                 newDetailsBlock = detailsBlockTemplate.cloneNode(true);
                 newDetailsBlock.classList.add("inserted");
                 newDetailsBlock.style.display = "block";
@@ -76,15 +75,35 @@ document.addEventListener("DOMContentLoaded", () => {
                 const rowSize = 5;
                 const rowIndex = Math.floor(index / rowSize);
                 const insertAfterIndex = (rowIndex + 1) * rowSize - 1;
-                const adjustedIndex = Math.min(insertAfterIndex, movieElements.length - 1);
+                const adjustedIndex = Math.min(insertAfterIndex, filteredMovies.length - 1);
 
-                const insertAfterElement = movieElements[adjustedIndex];
+                const insertAfterElement = movieGrid.children[adjustedIndex];
 
                 // Insert the details block after the insertAfterElement
                 insertAfterElement.after(newDetailsBlock);
             });
         });
+    }
+
+    // Fetch movies from API
+    get('/api/movies', (httpRequest) => {
+        movies = JSON.parse(httpRequest.responseText); // Store the fetched movies
+        renderMovies(movies); // Initially render all movies
     });
+
+    // Filter movies on search
+    searchInput.addEventListener("input", () => {
+        const searchQuery = searchInput.value.trim().toLowerCase();
+        if (searchQuery === "") {
+            renderMovies(movies); // Show all movies when search box is empty
+        } else {
+            const filteredMovies = movies.filter(movie =>
+                movie.title.toLowerCase().includes(searchQuery)
+            );
+            renderMovies(filteredMovies);
+        }
+    });
+
     const userEmailButton = document.getElementById("user-email-button");
     const userDropdown = document.getElementById("user-dropdown");
 
@@ -100,7 +119,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
-
 
 function logout() {
     request_delete('/api/sign-out', () => {
