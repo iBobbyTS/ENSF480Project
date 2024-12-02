@@ -97,4 +97,8 @@ public class RegisteredUser {
     public RefundStrategy getRefundStrategy() {
         return new RURefundStrategy();
     }
+
+    public void setUsrEmail(String usrEmail) {
+        this.usrEmail = usrEmail;
+    }
 }

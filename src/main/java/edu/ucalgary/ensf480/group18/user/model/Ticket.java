@@ -39,6 +39,7 @@ public class Ticket {
         this.seat = seat;
         this.ticketPrice = seat.getSeatPrice();
         this.isPurchased = isPurchased;
+        this.ticketId = UUID.randomUUID();
     }
 
     public UUID getTicketId() {

@@ -26,13 +26,9 @@ public class TicketServImpl implements TicketServ {
 
     @Override
     public List<Ticket> getTicketByEmailAddress(String emailAddress) {
-        return null;
+        return ticketRepo.findTicketsByEmail(emailAddress);
     }
 
-//        @Override
-//        public List<Ticket> getTicketByEmailAddress(String emailAddress) {
-//            return ticketRepo.findTicketsByEmail(emailAddress);
-//        }
 
 
         @Override

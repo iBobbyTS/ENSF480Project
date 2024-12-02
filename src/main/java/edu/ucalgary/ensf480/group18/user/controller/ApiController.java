@@ -10,8 +10,10 @@ import edu.ucalgary.ensf480.group18.user.service.*;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 
 class UserAccount {
@@ -43,6 +45,8 @@ public class ApiController {
     private SeatServ seatService;
     @Autowired
     private ShowTimeServ showTimeService;
+    @Autowired
+    private TicketServ ticketService;
     @GetMapping("/movies")
     public List<Movie> getMovies() {
         return movieService.getAllMovies();
@@ -185,11 +189,30 @@ public class ApiController {
     public List<Seat> getSeats(@RequestParam("showtimeId") int showtimeId) {
         // Fetch seat data based on the showtime ID
         ShowTime showtime = showTimeService.getShowTimeById(showtimeId);
+        System.out.println(seatService.getAllSeats(showtime));
         return seatService.getAllSeats(showtime);
     }
 
     @GetMapping("/showtimes")
     public List<ShowTime> getShowTimes(@RequestParam("movieId") int movieId) {
         return showTimeService.getShowTimesByMovieId(movieId);
+    }
+
+    @GetMapping("/my-tickets")
+    public List<Map<String, Object>> getMyTickets(@CookieValue(name = "TOKEN", defaultValue = "none") String token) {
+        if (token.equals("none")) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not logged in");
+        }
+
+        RegisteredUser user = cookieService.getUser(token);
+        List<Ticket> tickets = ticketService.getTicketByEmailAddress(user.getUsrEmail());
+
+        return tickets.stream().map(ticket -> {
+            Map<String, Object> ticketInfo = new HashMap<>();
+            ticketInfo.put("movieTitle", ticket.getSeat().getShowTime().getMovie().getTitle());
+            ticketInfo.put("showTime", ticket.getSeat().getShowTime().getShowTime().toString().replace("T", " "));
+            ticketInfo.put("seat", ticket.getSeat());
+            return ticketInfo;
+        }).collect(Collectors.toList());
     }
 }

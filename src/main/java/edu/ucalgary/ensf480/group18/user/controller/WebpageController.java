@@ -279,7 +279,8 @@ public class WebpageController {
         }
 
         if (!isLoggedIn) {
-            return "redirect:/sign-in"; // Redirect to sign-in if not logged in
+            user = new RegisteredUser();
+            user.setUsrEmail("guest");
         }
 
         int success = Integer.parseInt(successCode);
@@ -299,24 +300,47 @@ public class WebpageController {
             ShowTime showtime = showTimeService.getShowTimeById(showtimeId);
             System.out.println("showtimessss");
             System.out.println(showtime);
+            StringBuilder ticketIds = new StringBuilder();
             for (List<Integer> seat : seatsArray) {
                 Seat newSeat = new Seat(seat.get(0), seat.get(1), 25, true, showtime);
                 System.out.println(newSeat.getShowTime());
                 seatService.createSeat(newSeat); // Save the Seat entity first
-                ticketService.createTicket(new Ticket(user.getUsrEmail(), newSeat, true));
+                Ticket t = new Ticket(user.getUsrEmail(), newSeat, true);
+                ticketIds.append(t.getTicketId()).append(", ");
+                System.out.println(t.getTicketId());
+                ticketService.createTicket(t);
             }
 
             // Prepare success page data
             model.addAttribute("success", true);
             model.addAttribute("movieTitle", showtime.getMovie().getTitle());
             model.addAttribute("showtime", showtime.getShowTime().toString());
-
+            model.addAttribute("ticketId", ticketIds.substring(0, ticketIds.length() - 2));
         } else {
             // Redirect to the buy-ticket page for this movie
             return "redirect:/movie/buy-ticket?movieId=" + showTimeService.getShowTimeById(showtimeId).getMovie().getMovieId();
         }
 
         return "payment/done/ticket";
+    }
+
+    @GetMapping("/my-tickets")
+    public String myTickets(@CookieValue(name = "TOKEN", defaultValue = "none") String token, Model model) {
+        boolean isLoggedIn = false;
+        RegisteredUser user = null;
+        if (!token.equals("none")) {
+            // verify token with database
+            try {
+                user = cookieService.getUser(token);
+                isLoggedIn = true;
+            } catch (IllegalArgumentException e) {
+                // Invalid token
+            }
+        }
+        if (!isLoggedIn) {
+            return "redirect:/sign-in";
+        }
+        return "my-tickets";
     }
 
 }

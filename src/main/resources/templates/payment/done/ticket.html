@@ -12,7 +12,6 @@
             const seatArray = seats.split(',')
             let rtn = "";
             for (let i of seatArray) {
-                console.log(i);
                 let [row, col] = i.split('-');
                 row = parseInt(row);
                 rtn += seatMap[row] + col + ", ";
@@ -21,13 +20,11 @@
             return rtn;
         }
         function downloadStringAsFile() {
-
             // Get the current URL
             const urlParams = new URLSearchParams(window.location.search);
             // Get a specific parameter value
             const seats = urlParams.get('seats');
-            console.log(seats, parseSeats(seats))
-            const content = `Movie: [[${movieTitle}]]\nTime: [[${showtime}]]\nSeats: ${parseSeats(seats)}`;
+            const content = `Movie: [[${movieTitle}]]\nTime: [[${showtime}]]\nSeats: ${parseSeats(seats)}\nTicket ID: [[${ticketId}]]`;
             // Create a Blob from the string content
             const blob = new Blob([content], { type: 'text/plain' });
 
