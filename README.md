@@ -11,8 +11,11 @@ CREATE USER 'ensf480'@'localhost' IDENTIFIED BY 'ensf480';
 CREATE DATABASE theater480;
 GRANT ALL PRIVILEGES ON *.* TO 'ensf480'@'localhost' with GRANT OPTION;
 ```
+You can also use your own database and user by modifying line 2-4 of `src/main/resources/application.properties`
 ## Running the program
 `mvn spring-boot:run`
+## Data persistence
+Modify line 9 and 12 in `src/main/resources/application.properties` to change the behaviour of database initialization.
 ## Target
 Visit [localhost:8080](http://localhost:8080) in a local browser
 ## TODO
