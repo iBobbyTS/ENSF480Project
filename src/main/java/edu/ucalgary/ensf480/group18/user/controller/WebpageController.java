@@ -298,8 +298,6 @@ public class WebpageController {
             // Store tickets in the database
 
             ShowTime showtime = showTimeService.getShowTimeById(showtimeId);
-            System.out.println("showtimessss");
-            System.out.println(showtime);
             StringBuilder ticketIds = new StringBuilder();
             for (List<Integer> seat : seatsArray) {
                 Seat newSeat = new Seat(seat.get(0), seat.get(1), 25, true, showtime);
@@ -307,6 +305,9 @@ public class WebpageController {
                 seatService.createSeat(newSeat); // Save the Seat entity first
                 Ticket t = new Ticket(user.getUsrEmail(), newSeat, true);
                 ticketIds.append(t.getTicketId()).append(", ");
+                System.out.println(t.getTicketId());
+                System.out.println(t.getTicketId());
+                System.out.println(t.getTicketId());
                 System.out.println(t.getTicketId());
                 ticketService.createTicket(t);
             }

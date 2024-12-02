@@ -75,7 +75,7 @@ function submitShowtimes() {
         { showtimes },
         (response) => {
             const result = JSON.parse(response);
-            if (result.success === 5) {
+            if (result.success === 0) {
                 alert("Showtimes added successfully!");
                 window.location.href = "/admin"; // Redirect to admin page
             } else {
