@@ -116,3 +116,19 @@ p {
     justify-content: space-between;
     margin: 5px 0;
 }
+
+#pay-button {
+    background-color: #007BFF;
+    color: white;
+    font-size: 1em;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    display: inline-block;
+}
+
+#pay-button:hover {
+    background-color: #0056b3;
+}

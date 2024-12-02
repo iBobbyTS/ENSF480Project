@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const summarySeats = document.getElementById("summary-seats");
     const total = document.getElementById("total");
     const loadSeatsButton = document.getElementById("load-seats");
+    const payButton = document.getElementById("pay-button");
     const dateTimeDropdown = document.getElementById("date-time");
 
     let selectedSeats = [];
@@ -26,51 +27,41 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Function to render seat map
-    // Function to render seat map
     function renderSeatMap(seats) {
-        // Clear the existing seat map
         seatMapContainer.innerHTML = "";
-
-        // Total rows and columns
         const totalRows = 10;
         const totalColumns = 10;
 
-        // Create a 2D grid with all seats
-        const seatGrid = Array.from({ length: totalRows }, (_, rowIndex) => {
-            return Array.from({ length: totalColumns }, (_, columnIndex) => ({
+        // Create a grid and mark reserved seats
+        const seatGrid = Array.from({ length: totalRows }, (_, rowIndex) =>
+            Array.from({ length: totalColumns }, (_, columnIndex) => ({
                 seatRow: rowIndex,
                 seatColumn: columnIndex,
                 isReserved: false,
-            }));
-        });
+            }))
+        );
 
-        // Mark reserved seats based on backend data
         seats.forEach((seat) => {
-            const row = seat.seatRow;
-            const column = seat.seatColumn;
-            seatGrid[row][column].isReserved = true;
+            seatGrid[seat.seatRow][seat.seatColumn].isReserved = true;
         });
 
-        // Render the grid
+        // Render seat grid
         seatGrid.forEach((rowSeats, rowIndex) => {
             const rowDiv = document.createElement("div");
             rowDiv.classList.add("seat-row");
 
             rowSeats.forEach((seat) => {
                 const seatElement = document.createElement("div");
-                seatElement.classList.add("seat");
-                seatElement.classList.add(seat.isReserved ? "reserved" : "empty");
+                seatElement.classList.add("seat", seat.isReserved ? "reserved" : "empty");
                 seatElement.dataset.seatNumber = `${String.fromCharCode(65 + rowIndex)}${seat.seatColumn + 1}`;
-                seatElement.dataset.seatId = `${rowIndex}-${seat.seatColumn}`; // Unique ID for the seat
+                seatElement.dataset.seatId = `${rowIndex}-${seat.seatColumn}`;
 
-                // Hover behavior
                 seatElement.addEventListener("mouseenter", () => {
                     seatElement.title = seat.isReserved
                         ? "Already Reserved"
                         : seatElement.dataset.seatNumber;
                 });
 
-                // Click behavior for empty seats
                 if (!seat.isReserved) {
                     seatElement.addEventListener("click", () => {
                         if (seatElement.classList.contains("selected")) {
@@ -99,10 +90,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const selectedShowtimeId = dateTimeDropdown.value;
         const selectedDateTime = showtimeMap[selectedShowtimeId];
 
-        // Update movie and time
         summaryMovie.textContent = `${movieName} at ${selectedDateTime}`;
 
-        // Update seat list
         summarySeats.innerHTML = "";
         selectedSeats.forEach((seat) => {
             const seatItem = document.createElement("li");
@@ -110,9 +99,32 @@ document.addEventListener("DOMContentLoaded", () => {
             summarySeats.appendChild(seatItem);
         });
 
-        // Update total
         total.textContent = `Total: $${selectedSeats.length * ticketPrice}`;
     }
+
+    // Redirect to payment page
+    payButton.onclick = () => {
+        const selectedShowtimeId = dateTimeDropdown.value;
+
+        if (!selectedShowtimeId || selectedSeats.length === 0) {
+            alert("Please select a showtime and at least one seat.");
+            return;
+        }
+
+        const redirectParams = {
+            showtimeId: selectedShowtimeId,
+            seats: selectedSeats.map((seat) => {
+                const [row, column] = seat.match(/\d+|[A-Z]+/g);
+                return {
+                    seatRow: row.charCodeAt(0) - 65, // Convert row letter to number
+                    seatColumn: parseInt(column, 10) - 1, // Adjust column index
+                };
+            }),
+        };
+
+        const encodedParams = encodeURIComponent(JSON.stringify(redirectParams));
+        window.location.href = `/payment/bank?redirect=/payment/done/ticket?${encodedParams}`;
+    };
 
     // Fetch seats from the backend and render seat map
     loadSeatsButton.addEventListener("click", () => {
@@ -123,7 +135,6 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        // Call backend API to get seat data
         get(`/api/seats`, (httpRequest) => {
             const seats = JSON.parse(httpRequest.responseText);
             renderSeatMap(seats);
